@@ -64,6 +64,10 @@ public class HomeFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView amount = (TextView)view.findViewById(R.id.amount_text_view);
+                String s = amount.getText().toString();
+                total = total - Integer.parseInt(s.substring(0, s.length() - 1));
+                remaining = remaining + Integer.parseInt(s.substring(0, s.length() - 1));
                 Intent i = new Intent(getContext(),EditExpenseActivity.class);
                 TextView textView = (TextView)view.findViewById(R.id.id_text_view);
                 String idText = textView.getText().toString();
