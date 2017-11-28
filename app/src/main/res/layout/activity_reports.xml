@@ -67,7 +67,7 @@
 
         <android.support.v4.view.ViewPager
             android:layout_marginTop="5dp"
-            android:layout_weight="2"
+            android:layout_weight="1.09"
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -79,14 +79,14 @@
             android:layout_height="1dp" />
 
         <TextView
-            android:textColor="#F0514B"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="25sp"
-            android:text="Total: 2000$"
             android:id="@+id/total_view_report"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.3"
-            android:layout_height="0dp" />
+            android:fontFamily="sans-serif-medium"
+            android:text="Total: 2000$"
+            android:textColor="#F0514B"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
