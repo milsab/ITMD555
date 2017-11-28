@@ -1,6 +1,7 @@
 package expenses.android.com.expenses;
 
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,6 +27,11 @@ import expenses.android.com.expenses.domain.Expense;
 
 public class HomeFragment extends Fragment {
 
+    TextView txtTotal;
+    TextView txtRemaining;
+    int total;
+    int remaining;
+
     View theView;
 
     ListView listView;
@@ -41,7 +47,18 @@ public class HomeFragment extends Fragment {
 
         mExpenseDbHelper = new ExpenseDBHelper(getContext());
 
+        txtTotal = (TextView) theView.findViewById(R.id.txtTotal);
+        txtRemaining = (TextView) theView.findViewById(R.id.txtRemaining);
+
+        total = ((MainActivity) getActivity()).getTotalCost();
+        remaining = ((MainActivity) getActivity()).getRemainingAmount();
+
+        txtTotal.setText(String.valueOf(total));
+        txtRemaining.setText(String.valueOf(remaining));
+
+
         listView = (ListView)theView.findViewById(R.id.expense_list_view);
+
         expenseAdapter = new ExpenseAdapter(theView.getContext(),null);
         listView.setAdapter(expenseAdapter);
 
@@ -54,10 +71,12 @@ public class HomeFragment extends Fragment {
                 String idText = textView.getText().toString();
                 i.putExtra("id",Integer.parseInt(idText));
                 i.putExtra("action","edit");
-                startActivity(i);
-
+//                startActivity(i);
+                startActivityForResult(i, 1);
             }
         });
+
+
 
         return theView;
     }
@@ -79,6 +98,27 @@ public class HomeFragment extends Fragment {
         }else{
             TextView textView = (TextView)theView.findViewById(R.id.list_empty_message);
             textView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                int result=data.getIntExtra("result", 0);
+                total = total + result;
+                remaining = remaining - result;
+
+                ((MainActivity) getActivity()).setTotalCost(total);
+                ((MainActivity) getActivity()).setRemainingAmount(remaining);
+
+                txtTotal.setText(String.valueOf(total));
+                txtRemaining.setText(String.valueOf(remaining));
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
         }
     }
 }

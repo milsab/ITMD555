@@ -1,5 +1,6 @@
 package expenses.android.com.expenses;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -196,7 +197,11 @@ public class EditExpenseActivity extends AppCompatActivity {
             mExpenseDBHelper.updateExpense(contentValues,mExpenseId);
         }
 
-
+//        int result = (int) amount;
+//        Intent returnIntent = new Intent();
+//        returnIntent.putExtra("result",result);
+//        setResult(Activity.RESULT_OK,returnIntent);
+//        finish();
     }
 
 
@@ -211,9 +216,14 @@ public class EditExpenseActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_save:
                 saveExpense();
-                Intent i = new Intent(this,MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+//                Intent i = new Intent(this,MainActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(i);
+//                finish();
+                int result = (int) 10;
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",result);
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
                 return true;
         }

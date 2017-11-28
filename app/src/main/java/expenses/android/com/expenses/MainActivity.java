@@ -15,6 +15,9 @@ import android.support.v4.app.FragmentManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    private static int totalCost = 0;
+    private static int remainingAmount =1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,5 +89,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int cost) {
+        totalCost = cost;
+    }
+
+    public int getRemainingAmount() {
+        return remainingAmount;
+    }
+
+    public void setRemainingAmount(int amount) {
+        remainingAmount = amount;
     }
 }
