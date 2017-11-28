@@ -46,7 +46,7 @@ public class EditExpenseActivity extends AppCompatActivity {
     private Calendar calendar;
     private int year, month, day;
     private String mCategory;
-
+    private double amount;
     private int mExpenseId;
     private String mAction;
     private String mDate;
@@ -180,7 +180,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         String title = mEditExpenseTitle.getText().toString().trim();
         String description = mEditDescriptionExpense.getText().toString().trim();
-        double amount = Double.parseDouble(mEditAmountExpense.getText().toString().trim());
+        amount = Double.parseDouble(mEditAmountExpense.getText().toString().trim());
         long date = Utils.getDateLong(dateView.getText().toString().trim());
 
 
@@ -196,12 +196,6 @@ public class EditExpenseActivity extends AppCompatActivity {
         }else if(mAction.equals("edit")){
             mExpenseDBHelper.updateExpense(contentValues,mExpenseId);
         }
-
-//        int result = (int) amount;
-//        Intent returnIntent = new Intent();
-//        returnIntent.putExtra("result",result);
-//        setResult(Activity.RESULT_OK,returnIntent);
-//        finish();
     }
 
 
@@ -216,11 +210,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_save:
                 saveExpense();
-//                Intent i = new Intent(this,MainActivity.class);
-//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(i);
-//                finish();
-                int result = (int) 10;
+                int result = (int) amount;
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result",result);
                 setResult(Activity.RESULT_OK,returnIntent);

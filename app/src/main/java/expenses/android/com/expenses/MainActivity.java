@@ -1,5 +1,6 @@
 package expenses.android.com.expenses;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, EditExpenseActivity.class);
                 i.putExtra("action","add");
-                startActivity(i);
+                startActivityForResult(i, 1);
             }
         });
 
@@ -48,6 +49,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                int result=data.getIntExtra("result", 0);
+                totalCost = totalCost + result;
+                remainingAmount = remainingAmount - result;
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame
+                                , new HomeFragment())
+                        .commit();
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     @Override

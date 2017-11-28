@@ -33,11 +33,9 @@ public class HomeFragment extends Fragment {
     int remaining;
 
     View theView;
-
     ListView listView;
     ExpenseAdapter expenseAdapter;
     ExpenseDBHelper mExpenseDbHelper;
-
 
     @Nullable
     @Override
@@ -71,23 +69,18 @@ public class HomeFragment extends Fragment {
                 String idText = textView.getText().toString();
                 i.putExtra("id",Integer.parseInt(idText));
                 i.putExtra("action","edit");
-//                startActivity(i);
                 startActivityForResult(i, 1);
             }
         });
 
-
-
         return theView;
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
         displayExpenses();
     }
-
 
     private void displayExpenses(){
 
