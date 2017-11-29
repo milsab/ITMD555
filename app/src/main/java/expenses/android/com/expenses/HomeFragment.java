@@ -2,40 +2,37 @@ package expenses.android.com.expenses;
 
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import expenses.android.com.expenses.data.ExpenseDBHelper;
-import expenses.android.com.expenses.domain.Expense;
 
 public class HomeFragment extends Fragment {
 
     TextView txtTotal;
     TextView txtRemaining;
+    ArcProgress arcProgress;
     int total;
     int remaining;
-
+    int budget;
+    double remainingPercent;
     View theView;
     ListView listView;
     ExpenseAdapter expenseAdapter;
     ExpenseDBHelper mExpenseDbHelper;
+
+
 
     @Nullable
     @Override
@@ -45,21 +42,30 @@ public class HomeFragment extends Fragment {
 
         mExpenseDbHelper = new ExpenseDBHelper(getContext());
 
+
+        // Get views
         txtTotal = (TextView) theView.findViewById(R.id.txtTotal);
         txtRemaining = (TextView) theView.findViewById(R.id.txtRemaining);
+        arcProgress = (ArcProgress) theView.findViewById(R.id.arc_progress);
+        listView = (ListView)theView.findViewById(R.id.expense_list_view);
 
+        //Get sharedpreferences values
         total = ((MainActivity) getActivity()).getTotalCost();
         remaining = ((MainActivity) getActivity()).getRemainingAmount();
+        budget = ((MainActivity) getActivity()).getBudgetAmount();
 
+
+        //calculate progress percentage
+        remainingPercent = (double)total/budget * 100;
+
+        //Set values
         txtTotal.setText(String.valueOf(total));
         txtRemaining.setText(String.valueOf(remaining));
+        arcProgress.setProgress((int)remainingPercent);
 
-
-        listView = (ListView)theView.findViewById(R.id.expense_list_view);
 
         expenseAdapter = new ExpenseAdapter(theView.getContext(),null);
         listView.setAdapter(expenseAdapter);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,12 +112,18 @@ public class HomeFragment extends Fragment {
                 int result=data.getIntExtra("result", 0);
                 total = total + result;
                 remaining = remaining - result;
+                remainingPercent = (double)total/budget * 100;
 
                 ((MainActivity) getActivity()).setTotalCost(total);
                 ((MainActivity) getActivity()).setRemainingAmount(remaining);
+                ((MainActivity) getActivity()).setBudgetAmount((int)remainingPercent);
+
 
                 txtTotal.setText(String.valueOf(total));
                 txtRemaining.setText(String.valueOf(remaining));
+                arcProgress.setProgress((int)remainingPercent);
+
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
