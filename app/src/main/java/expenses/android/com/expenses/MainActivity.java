@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,25 +21,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static int totalCost = 100;
     private static int remainingAmount =1000;
+    private static int budgetAmount;
+
     SharedPreferences sharedPref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Get Preferences values from setting fragment
+        //-----------------------------------------------------------------------------------------
         sharedPref = getPreferences(Context.MODE_PRIVATE);
+
         int cost = sharedPref.getInt("TOTAL", 0);
         totalCost = cost;
+        Log.wtf("MainActivity","totalCost" + totalCost);
 
         int amount = sharedPref.getInt("REMAINING", 0);
         remainingAmount = amount;
+        Log.wtf("MainActivity","remainingAmount---------------->" + remainingAmount);
 
+        int budget = sharedPref.getInt("BUDGET",0);
+        budgetAmount = budget;
+        Log.wtf("MainActivity","budget------------------->" + budgetAmount);
+        //-----------------------------------------------------------------------------------------
+
+        // Initiate home page on create
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame
                         , new HomeFragment())
                 .commit();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -59,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //        //iconfy navigation bar item icons with fontawesome
+        //iconfy navigation bar item icons with fontawesome
         navigationView.getMenu().findItem(R.id.nav_home_layout).setIcon( R.drawable.ic_home);
         navigationView.getMenu().findItem(R.id.nav_reports_layout).setIcon(R.drawable.ic_pie_chart);
         navigationView.getMenu().findItem(R.id.nav_expenses_layout).setIcon(R.drawable.ic_money);
@@ -149,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("TOTAL", cost);
-        editor.commit();
+        editor.apply();
     }
 
     public int getRemainingAmount() {
@@ -162,6 +179,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("REMAINING", amount);
-        editor.commit();
+        editor.apply();
+    }
+
+    public int getBudgetAmount() {
+        return budgetAmount;
+    }
+
+    public void setBudgetAmount(int budget) {
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("BUDGET", budget);
+        editor.apply();
     }
 }
