@@ -1,7 +1,9 @@
 package expenses.android.com.expenses;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,11 +20,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static int totalCost = 100;
     private static int remainingAmount =1000;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        int cost = sharedPref.getInt("TOTAL", 0);
+        totalCost = cost;
+
+        int amount = sharedPref.getInt("REMAINING", 0);
+        remainingAmount = amount;
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -57,8 +67,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 int result=data.getIntExtra("result", 0);
+
                 totalCost = totalCost + result;
                 remainingAmount = remainingAmount - result;
+                this.setTotalCost(totalCost);
+                this.setRemainingAmount(remainingAmount);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
@@ -115,11 +128,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public int getTotalCost() {
+
+//        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+//        int cost = sharedPref.getInt("TOTAL", 0);
+//        totalCost = cost;
         return totalCost;
     }
 
     public void setTotalCost(int cost) {
         totalCost = cost;
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("TOTAL", cost);
+        editor.commit();
     }
 
     public int getRemainingAmount() {
@@ -128,5 +150,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setRemainingAmount(int amount) {
         remainingAmount = amount;
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("REMAINING", amount);
+        editor.commit();
     }
 }
