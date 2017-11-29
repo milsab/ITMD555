@@ -3,6 +3,7 @@ package expenses.android.com.expenses;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ public class SettingsFragment extends Fragment {
     View theView;
     EditText txtBudget;
     Button btnApply;
+    int amount;
+    int budget;
 
     @Nullable
     @Override
@@ -32,21 +35,28 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                int amount = Integer.parseInt(txtBudget.getText().toString());
+                amount = Integer.parseInt(txtBudget.getText().toString());
+                budget=amount;
+
                 SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putInt("REMAINING", amount);
-                editor.commit();
+                editor.apply();
 
+                editor.putInt("BUDGET", budget);
+                editor.apply();
+
+                // change the value in Mainactivity
                 ((MainActivity) getActivity()).setRemainingAmount(amount);
+                ((MainActivity) getActivity()).setRemainingAmount(budget);
 
-                Toast.makeText(getActivity(), "Your Budget Applyied Successfully",
+
+                Toast.makeText(getActivity(), "budget set:" + budget,
                         Toast.LENGTH_SHORT).show();
             }
         });
 
         return theView;
     }
-
 
 }
