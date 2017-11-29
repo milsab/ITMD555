@@ -1,102 +1,133 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:orientation="vertical">
 
-    android:paddingTop="@dimen/activity_vertical_margin">
 
+    <!--top section wrapper-->
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/background_with_shadow"
+        android:padding="0dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!--Top left-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
 
-            <LinearLayout
-                android:layout_weight="2"
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Total:"
-                    android:textColor="#F0514B"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/txtTotal"
-                    android:text="11500$"
-                    android:textSize="40sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="2dp"
-                android:background="#d3d3d3"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
-                android:layout_weight="2"
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Remaining:"
-                    android:textColor="#F0514B"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:textAlignment="viewEnd"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/txtRemaining"
-                    android:text="3200$"
-                    android:gravity="right"
-                    android:textSize="40sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:background="#d3d3d3"
-            android:layout_width="match_parent"
-            android:layout_height="2dp" />
-
-        <ListView
-            android:id="@+id/expense_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ListView>
+            <!--need to condition the text size when change to bigger number-->
+            <TextView
+                android:id="@+id/total-month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:padding="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="November Total"
+                android:textAlignment="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.446"
+                app:layout_constraintStart_toStartOf="@+id/txtTotal"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:id="@+id/list_empty_message"
-            android:text="There are no data in the list"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/txtTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="$12,000"
+                android:textAlignment="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/total-month" />
+        </android.support.constraint.ConstraintLayout>
+
+        <!--top right-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+
+            <com.github.lzyzsd.circleprogress.ArcProgress
+                android:id="@+id/arc_progress"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:arc_bottom_text="Budget"
+                app:arc_bottom_text_size="16dp"
+                app:arc_finished_color="#f44336"
+                app:arc_progress="89"
+                app:arc_text_color="@color/colorPrimaryDark"
+                app:arc_unfinished_color="#ffffff"
+                app:layout_constraintBottom_toTopOf="@+id/txtRemaining"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+            <TextView
+                android:id="@+id/txtRemaining"
+                android:layout_width="151dp"
+                android:layout_height="15dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="You are close to your budget"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/arc_progress"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="@+id/arc_progress"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.956" />
+        </android.support.constraint.ConstraintLayout>
+
     </LinearLayout>
 
+    <!--bottom section -->
+    <ListView
+        android:id="@+id/expense_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+    </ListView>
+
+    <TextView
+        android:id="@+id/list_empty_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="There are no data in the list"
+        android:visibility="gone" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_fab_plus" />
+
+</LinearLayout>
