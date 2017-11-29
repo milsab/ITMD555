@@ -32,16 +32,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.3.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-
-
-
-    //iconfy for custom icons
-    compile 'com.joanzapata.iconify:android-iconify:2.2.2'
-    compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.1' // (v4.5)
-    // cicular progress bar
-    compile 'com.github.lzyzsd:circleprogress:1.2.1'
-
-    //implement constriant layout
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
