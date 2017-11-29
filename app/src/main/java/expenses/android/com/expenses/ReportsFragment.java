@@ -238,8 +238,6 @@ public class ReportsFragment extends Fragment{
         }
 
         Log.d("ReportsFragment","onResume()");
-
-
     }
 
     @Override
@@ -247,7 +245,6 @@ public class ReportsFragment extends Fragment{
         super.onDetach();
         Log.d("ReportsTag","onDetach()");
     }
-
 
     @Override
     public void onPause() {

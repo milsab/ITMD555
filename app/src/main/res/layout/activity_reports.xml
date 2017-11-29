@@ -7,12 +7,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Generate reports by date"
-        android:textColor="@color/colorAccent"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:fontFamily="sans-serif"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Generate reports by date"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="14sp" />
 
     <!-- Input field -->
     <LinearLayout
@@ -37,13 +38,14 @@
 
     <TextView
         android:id="@+id/category_spinner_label"
-        android:layout_marginTop="20dp"
-        android:text="Choose Category:"
-        android:textColor="@color/colorAccent"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:fontFamily="sans-serif"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif"
+        android:text="Choose Category:"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/spinner_category_report"
@@ -67,7 +69,7 @@
 
         <android.support.v4.view.ViewPager
             android:layout_marginTop="5dp"
-            android:layout_weight="1.09"
+            android:layout_weight="1.59"
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -82,10 +84,10 @@
             android:id="@+id/total_view_report"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.12"
             android:fontFamily="sans-serif-medium"
             android:text="Total: 2000$"
-            android:textColor="#F0514B"
+            android:textColor="@android:color/holo_blue_dark"
             android:textSize="18sp" />
 
 

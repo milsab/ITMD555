@@ -27,13 +27,13 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Total:"
-                    android:textColor="#F0514B"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Total:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtTotal"
@@ -57,14 +57,14 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Remaining:"
-                    android:textColor="#F0514B"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
                     android:textAlignment="viewEnd"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtRemaining"
