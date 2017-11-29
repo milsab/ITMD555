@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //        //iconfy navigation bar item icons with fontawesome
+        navigationView.getMenu().findItem(R.id.nav_home_layout).setIcon( R.drawable.ic_home);
+        navigationView.getMenu().findItem(R.id.nav_reports_layout).setIcon(R.drawable.ic_pie_chart);
+        navigationView.getMenu().findItem(R.id.nav_expenses_layout).setIcon(R.drawable.ic_money);
+        navigationView.getMenu().findItem(R.id.nav_settings_layout).setIcon(R.drawable.ic_cogs);
+        navigationView.getMenu().findItem(R.id.nav_help_layout).setIcon(R.drawable.ic_question_circle);
+        navigationView.getMenu().findItem(R.id.nav_about_layout).setIcon(R.drawable.ic_info_circle);
+
     }
 
     @Override
