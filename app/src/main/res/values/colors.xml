@@ -14,22 +14,4 @@
 
         <!-- Primary dark color for the editor -->
         <color name="editorColorPrimaryDark">#394450</color>
-
-        <!--material Primary-->
-        <color name="mdPrimary">#455a64</color>
-
-        <!--material Primary light-->
-        <color name="mdPrimaryLight">#718792</color>
-
-        <!--material Primary Dark-->
-        <color name="mdPrimaryDark">#1c313a</color>
-
-        <!--material Secondary-->
-        <color name="mdSecondary">#2e7d32</color>
-
-        <!--material Secondary light-->
-        <color name="mdSecondaryLight">#2e7d32</color>
-
-        <!--material Secondary Dark-->
-        <color name="mdSecondaryDark">#60ad5e</color>
 </resources>
