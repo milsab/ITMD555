@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void setBudgetAmount(int budget) {
-
+        budgetAmount = budget;
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("BUDGET", budget);
