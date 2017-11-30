@@ -15,7 +15,7 @@ import expenses.android.com.expenses.domain.Expense;
 
 public class ExpenseDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "expenses.db";
 
 
@@ -94,5 +94,10 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
                 "GROUP BY category);", null);
 
         return cursor;
+    }
+
+    public void deleteAll(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM expense");
     }
 }

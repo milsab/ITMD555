@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "expenses.android.com.expenses"
         minSdkVersion 19
@@ -33,4 +33,10 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    //iconfy for custom icons
+    compile 'com.joanzapata.iconify:android-iconify:2.2.2'
+    compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.1' // (v4.5)
+    // cicular progress bar
+    compile 'com.github.lzyzsd:circleprogress:1.2.1'
 }
