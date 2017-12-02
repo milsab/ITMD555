@@ -3,19 +3,15 @@ package expenses.android.com.expenses;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import java.util.List;
+import java.text.NumberFormat;
 
 import expenses.android.com.expenses.data.ExpenseContract;
-import expenses.android.com.expenses.domain.Expense;
-import expenses.android.com.expenses.util.Utils;
 
 
 public class ExpenseAdapter extends CursorAdapter {
@@ -42,10 +38,12 @@ public class ExpenseAdapter extends CursorAdapter {
         String description = cursor.getString(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry.COLUMN_NAME_DESCRIPTION));
         double amount = cursor.getDouble(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry.COLUMN_NAME_AMOUNT));
 
+        String formattedAmount = NumberFormat.getInstance().format(amount);
+
         titleTextView.setText(title);
         descriptionTextView.setText(description);
-        amountTextView.setText(Utils.formatAmount(amount,"$"));
-        idTextViewHidden.setText("" + id);
+        amountTextView.setText("$" + formattedAmount);
+        idTextViewHidden.setText(String.valueOf(id));
 
 
     }
