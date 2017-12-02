@@ -9,14 +9,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import expenses.android.com.expenses.data.ExpenseContract;
@@ -56,14 +55,13 @@ public class EditExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_expense);
 
-
         mExpenseDBHelper = new ExpenseDBHelper(getApplicationContext());
 
         mEditExpenseTitle = (EditText) findViewById(R.id.edit_expense_title);
         mEditDescriptionExpense = (EditText) findViewById(R.id.edit_description_expense);
         mEditAmountExpense = (EditText) findViewById(R.id.edit_amount_expense);
         mSpinnerCategory = (Spinner) findViewById(R.id.spinner_category);
-        dateView = (TextView) findViewById(R.id.date_view);
+        dateView = (EditText) findViewById(R.id.date_view);
 
         // Pops up keyboard when add expense activity starts
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -74,18 +72,12 @@ public class EditExpenseActivity extends AppCompatActivity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month+1, day);
 
+        dateView.setText(calendar.get(Calendar.DATE) + "/"
+                + (calendar.get(Calendar.MONTH) + 1) + "/"
+                + calendar.get(Calendar.YEAR));
 
-
-        mButtonDSetDate = (Button) findViewById(R.id.set_date);
-
-        mButtonDSetDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(999);
-            }
-        });
+        //showDate(year, month+1, day);
 
 
         setupSpinner();
@@ -106,31 +98,36 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     }
 
+    public void set_date(View view) {
+//        Toast.makeText(getApplicationContext(),"text clicked", Toast.LENGTH_LONG).show();
+        showDialog(999);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
     }
 
     private void setupSpinner() {
-        // Create adapter for spinner. The list options are from the String array it will use
-        // the spinner will use the default layout
-        ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_category_options, android.R.layout.simple_spinner_item);
 
-        // Specify dropdown layout style - simple list view with 1 item per line
-        genderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        ArrayList<CategoryItem> list = new ArrayList<>();
+        list.add(new CategoryItem("general", R.drawable.ic_home));
+        list.add(new CategoryItem("clothing", R.drawable.ic_cogs));
 
-        // Apply the adapter to the spinner
-        mSpinnerCategory.setAdapter(genderSpinnerAdapter);
+        CategorySpinnerAdapter adapter = new CategorySpinnerAdapter(this,
+                R.layout.category_spinner, list);
+
+        mSpinnerCategory.setAdapter(adapter);
+
 
         // Set the integer mSelected to the constant values
         mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String) parent.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)) {
-                    mCategory = selection;
-                }
+//                String selection = (String) parent.getItemAtPosition(position);
+//                if (!TextUtils.isEmpty(selection)) {
+//                    mCategory = selection;
+//                }
             }
 
             // Because AdapterView is an abstract class, onNothingSelected must be defined
@@ -268,9 +265,9 @@ public class EditExpenseActivity extends AppCompatActivity {
         return index;
     }
 
-    public boolean validate(){
+    public boolean validate() {
         boolean status = true;
-        if(mEditExpenseTitle.getText().toString().trim().equals("")) {
+        if (mEditExpenseTitle.getText().toString().trim().equals("")) {
             Toast.makeText(getApplicationContext(), "Title is Required",
                     Toast.LENGTH_SHORT).show();
             status = false;
