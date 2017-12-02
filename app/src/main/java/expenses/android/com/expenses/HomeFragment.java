@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,15 @@ import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
+import java.util.Calendar;
+
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 
 public class HomeFragment extends Fragment {
 
     TextView txtTotal;
     TextView txtRemaining;
+    TextView month;
     ArcProgress arcProgress;
     int total;
     int remaining;
@@ -43,14 +47,14 @@ public class HomeFragment extends Fragment {
 
         mExpenseDbHelper = new ExpenseDBHelper(getContext());
 
-
         // Get views
         txtTotal = (TextView) theView.findViewById(R.id.txtTotal);
         txtRemaining = (TextView) theView.findViewById(R.id.txtRemaining);
         arcProgress = (ArcProgress) theView.findViewById(R.id.arc_progress);
         listView = (ListView)theView.findViewById(R.id.expense_list_view);
+        month = (TextView) theView.findViewById(R.id.text_month);
 
-        //Get sharedpreferences values
+        // Get sharedpreferences values
         total = ((MainActivity) getActivity()).getTotalCost();
         remaining = ((MainActivity) getActivity()).getRemainingAmount();
         budget = ((MainActivity) getActivity()).getBudgetAmount();
@@ -64,19 +68,12 @@ public class HomeFragment extends Fragment {
         }
 
         //Set values
-        txtTotal.setText(String.valueOf(total));
-        txtRemaining.setText( "Remaining: " + String.valueOf(remaining));
+        txtTotal.setText("$ " + String.valueOf(total));
+        txtRemaining.setText("Remaining: $" + String.valueOf(remaining));
 
-        if(consumptionPercent >= 90){
-            arcProgress.setTextColor(Color.RED);
-            txtTotal.setTextColor(Color.RED);
-            txtRemaining.setTextColor(Color.RED);
-        } else{
-            arcProgress.setTextColor(Color.GREEN);
-            txtTotal.setTextColor(Color.BLUE);
-            txtRemaining.setTextColor(Color.BLUE);
-        }
-        arcProgress.setProgress((int)consumptionPercent);
+        Log.wtf("HomeFragment", "Current Month:" + Calendar.getInstance().get(Calendar.MONTH));
+        monthTxtChanger();
+        colorChanger();
 
 
         expenseAdapter = new ExpenseAdapter(theView.getContext(),null);
@@ -101,10 +98,50 @@ public class HomeFragment extends Fragment {
         return theView;
     }
 
+    // Change the Month TextView based on current month
+    public void monthTxtChanger() {
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+
+        String[] monthlist = {"January", "February", "March", "April", "May", "June", "July", "August",
+                "September", "October", "November", "December"};
+
+        for (int x = 0; x < monthlist.length; x++) {
+            if (currentMonth == x + 1) {
+                month.setText(monthlist[x + 1]);
+            }
+        }
+    }
+
+    // Change Home TextViews colors based on expense value
+    public void colorChanger() {
+        if (consumptionPercent >= 89) {
+            txtTotal.setTextColor(Color.RED);
+        } else {
+            txtTotal.setTextColor(Color.BLACK);
+            txtRemaining.setTextColor(Color.BLACK);
+        }
+
+        arcProgress.setProgress((int) consumptionPercent);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
         displayExpenses();
+        total = ((MainActivity) getActivity()).getTotalCost();
+        remaining = ((MainActivity) getActivity()).getRemainingAmount();
+        budget = ((MainActivity) getActivity()).getBudgetAmount();
+
+
+        // Calculate progress percentage
+        if (budget == 0) {
+            consumptionPercent = 0;
+        } else {
+            consumptionPercent = (double) total / budget * 100;
+        }
+
+        // Change Home TextViews colors based on expense value
+        colorChanger();
     }
 
     private void displayExpenses(){
@@ -141,17 +178,7 @@ public class HomeFragment extends Fragment {
 
                 txtTotal.setText(String.valueOf(total));
                 txtRemaining.setText( "Remaining: " + String.valueOf(remaining));
-                if(consumptionPercent >= 90){
-                    arcProgress.setTextColor(Color.RED);
-                    txtTotal.setTextColor(Color.RED);
-                    txtRemaining.setTextColor(Color.RED);
-                } else{
-                    arcProgress.setTextColor(Color.GREEN);
-                    txtTotal.setTextColor(Color.BLUE);
-                    txtRemaining.setTextColor(Color.BLUE);
-                }
-                arcProgress.setProgress((int)consumptionPercent);
-
+                colorChanger();
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {

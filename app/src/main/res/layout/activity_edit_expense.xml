@@ -20,7 +20,47 @@
     android:padding="20dp"
     tools:context=".EditExpenseActivity">
 
+    <!-- Gender category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="Amount"
+            android:textColor="@android:color/holo_blue_dark" />
+
+        <!-- Input field -->
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <!-- Name field -->
+            <TextView
+                android:textColor="#AEB6BD"
+                android:fontFamily="sans-serif-medium"
+                android:text="$"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/edit_amount_expense"
+                android:inputType="number"
+                style="@style/EditorFieldStyle"
+                android:paddingTop="6dp"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:orientation="vertical" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Overview category -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,14 +83,13 @@
             <!-- Name field -->
             <EditText
                 android:id="@+id/edit_expense_title"
-                android:hint="Write a title here"
                 android:inputType="textCapWords"
                 style="@style/EditorFieldStyle" />
 
         </LinearLayout>
     </LinearLayout>
 
-
+    <!-- Gender category -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,47 +111,8 @@
             <!-- Name field -->
             <EditText
                 android:id="@+id/edit_description_expense"
-                android:hint="Write a description here"
                 android:inputType="textCapWords"
                 style="@style/EditorFieldStyle" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            style="@style/CategoryStyle"
-            android:text="Amount"
-            android:textColor="@android:color/holo_blue_dark" />
-
-        <!-- Input field -->
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:orientation="horizontal">
-
-            <!-- Name field -->
-            <EditText
-                android:id="@+id/edit_amount_expense"
-                android:hint="Write amount here"
-                android:inputType="number"
-                style="@style/EditorFieldStyle"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                />
-            <TextView
-                android:textColor="#AEB6BD"
-                android:fontFamily="sans-serif-medium"
-                android:text="$"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 
@@ -139,7 +139,7 @@
             <Spinner
                 android:id="@+id/spinner_category"
                 android:layout_height="48dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:paddingRight="16dp"
                 android:spinnerMode="dropdown"/>
         </LinearLayout>
@@ -162,18 +162,14 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/set_date"
-                android:text="Date"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
 
-            <TextView
+            <EditText
                 android:id="@+id/date_view"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:onClick="set_date"
+                style="@style/EditorFieldStyle" />
         </LinearLayout>
     </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.PieChart;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ReportsFragment extends Fragment{
@@ -34,6 +36,7 @@ public class ReportsFragment extends Fragment{
     private Spinner mSpinnerCategory;
     private TextView mTotalTextView;
     private TextView mCategorySpinnerLabel;
+    private String mCategory;
 
     private Button mDateFrom;
     private Button mDateTo;
@@ -158,31 +161,27 @@ public class ReportsFragment extends Fragment{
 
 
     private void setupSpinner() {
-        // Create adapter for spinner. The list options are from the String array it will use
-        // the spinner will use the default layout
-        ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(theView.getContext(),
-                R.array.array_category_options, android.R.layout.simple_spinner_item);
+        ArrayList<CategoryItem> list = new ArrayList<>();
+        list.add(new CategoryItem("general", R.drawable.ic_home));
+        list.add(new CategoryItem("clothing", R.drawable.ic_cogs));
 
-        // Specify dropdown layout style - simple list view with 1 item per line
-        genderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        CategorySpinnerAdapter adapter = new CategorySpinnerAdapter(getContext(),
+                R.layout.category_spinner, list);
 
-        // Apply the adapter to the spinner
-        mSpinnerCategory.setAdapter(genderSpinnerAdapter);
+        mSpinnerCategory.setAdapter(adapter);
+
 
         // Set the integer mSelected to the constant values
         mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String) parent.getItemAtPosition(position);
-                /*if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.category_car))) {
-                        mGender = PetContract.PetEntry.GENDER_MALE; // Male
-                    } else if (selection.equals(getString(R.string.gender_female))) {
-                        mGender = PetContract.PetEntry.GENDER_FEMALE; // Female
-                    } else {
-                        mGender = PetContract.PetEntry.GENDER_UNKNOWN; // Unknown
-                    }
-                }*/
+                CategoryItem categoryItem = (CategoryItem)parent.getItemAtPosition(position);
+                String selection = categoryItem.getCategory();
+                Toast.makeText(getContext(),"Selected item" + selection,Toast.LENGTH_SHORT).show();
+                if (!TextUtils.isEmpty(selection)) {
+                    mCategory = selection;
+                    Toast.makeText(getContext(),"Category selected:" + mCategory,Toast.LENGTH_LONG).show();
+                }
             }
 
             // Because AdapterView is an abstract class, onNothingSelected must be defined

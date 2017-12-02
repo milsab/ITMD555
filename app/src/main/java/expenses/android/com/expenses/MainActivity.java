@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     SharedPreferences sharedPref;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Get Preferences values from setting fragment
         //-----------------------------------------------------------------------------------------
+
         sharedPref = getPreferences(Context.MODE_PRIVATE);
 
         int cost = sharedPref.getInt("TOTAL", 0);
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.wtf("MainActivity","budget------------------->" + budgetAmount);
         //-----------------------------------------------------------------------------------------
 
+
         // Initiate home page on create
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -68,36 +69,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, EditExpenseActivity.class);
-                i.putExtra("action","add");
-                startActivityForResult(i, 1);
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        drawer.setStatusBarBackground(R.color.editorColorPrimary);
-
-        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //iconfy navigation bar item icons with fontawesome
         navigationView.getMenu().findItem(R.id.nav_home_layout).setIcon( R.drawable.ic_home);
         navigationView.getMenu().findItem(R.id.nav_reports_layout).setIcon(R.drawable.ic_pie_chart);
-        navigationView.getMenu().findItem(R.id.nav_expenses_layout).setIcon(R.drawable.ic_money);
         navigationView.getMenu().findItem(R.id.nav_settings_layout).setIcon(R.drawable.ic_cogs);
         navigationView.getMenu().findItem(R.id.nav_help_layout).setIcon(R.drawable.ic_question_circle);
         navigationView.getMenu().findItem(R.id.nav_about_layout).setIcon(R.drawable.ic_info_circle);
 
+
+        // Floating Add button
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, EditExpenseActivity.class);
+                i.putExtra("action", "add");
+                startActivityForResult(i, 1);
+            }
+        });
     }
 
     // Enable Navigation Toggle
@@ -148,11 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame
                             , new ReportsFragment())
-                    .commit();
-        } else if (id == R.id.nav_expenses_layout) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame
-                            , new ExpenseFragment())
                     .commit();
         } else if (id == R.id.nav_settings_layout) {
             fragmentManager.beginTransaction()

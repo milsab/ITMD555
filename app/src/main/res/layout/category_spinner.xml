@@ -7,14 +7,16 @@
         android:id="@+id/ic_category"
         android:layout_width="34sp"
         android:layout_height="34sp"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:background="@drawable/spinner_item_divider" />
 
     <TextView
         android:id="@+id/text_category"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="34sp"
         android:padding="5dp"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:background="@drawable/spinner_item_divider" />
 
 </LinearLayout>
 

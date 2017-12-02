@@ -11,10 +11,6 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Reports" />
         <item
-            android:id="@+id/nav_expenses_layout"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Expenses" />
-        <item
             android:id="@+id/nav_settings_layout"
             android:icon="@drawable/ic_menu_share"
             android:title="Settings" />

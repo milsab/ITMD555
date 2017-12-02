@@ -8,7 +8,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:src="@drawable/chartspic"
+        android:src="@mipmap/ic_launcher_foreground"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:layout_width="100dp"

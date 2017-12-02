@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -124,10 +125,12 @@ public class EditExpenseActivity extends AppCompatActivity {
         mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String selection = (String) parent.getItemAtPosition(position);
-//                if (!TextUtils.isEmpty(selection)) {
-//                    mCategory = selection;
-//                }
+                 CategoryItem categoryItem = (CategoryItem)parent.getItemAtPosition(position);
+                 String selection = categoryItem.getCategory();
+                  Toast.makeText(getApplicationContext(),"Selected item" + selection,Toast.LENGTH_SHORT).show();
+                if (!TextUtils.isEmpty(selection)) {
+                    mCategory = selection;
+                }
             }
 
             // Because AdapterView is an abstract class, onNothingSelected must be defined
@@ -257,7 +260,8 @@ public class EditExpenseActivity extends AppCompatActivity {
     private int getSelectionIndex(Spinner spinner, String category){
         int index = 0;
         for(int i = 0; i < spinner.getCount(); i++){
-            if(spinner.getItemAtPosition(i).toString().equals(category)){
+            CategoryItem categoryItem = (CategoryItem)spinner.getItemAtPosition(i);
+            if(categoryItem.getCategory().equals(category)){
                 index = i;
                 break;
             }
