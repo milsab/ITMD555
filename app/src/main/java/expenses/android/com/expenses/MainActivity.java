@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, EditExpenseActivity.class);
                 i.putExtra("action", "add");
+                i.putExtra("remaining", remainingAmount);
+
                 startActivityForResult(i, 1);
             }
         });
