@@ -50,6 +50,9 @@ public class EditExpenseActivity extends AppCompatActivity {
     private String mAction;
     private String mDate;
 
+    private double remaining;
+
+
     private ExpenseDBHelper mExpenseDBHelper;
 
 
@@ -98,6 +101,11 @@ public class EditExpenseActivity extends AppCompatActivity {
             populateData(mExpenseId);
             Toast.makeText(getApplicationContext(),"The id is :" + mExpenseId,Toast.LENGTH_SHORT).show();
         }
+
+        remaining = i.getDoubleExtra("remaining", 0);
+
+        Toast.makeText(getApplicationContext(), "remaining" + remaining, Toast.LENGTH_SHORT).show();
+
 
     }
 
