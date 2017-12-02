@@ -161,12 +161,10 @@ public class ReportsFragment extends Fragment{
 
 
     private void setupSpinner() {
-        ArrayList<CategoryItem> list = new ArrayList<>();
-        list.add(new CategoryItem("general", R.drawable.ic_home));
-        list.add(new CategoryItem("clothing", R.drawable.ic_cogs));
 
+        CategoryItem categoryItem = new CategoryItem();
         CategorySpinnerAdapter adapter = new CategorySpinnerAdapter(getContext(),
-                R.layout.category_spinner, list);
+                R.layout.category_spinner, categoryItem.addCategories());
 
         mSpinnerCategory.setAdapter(adapter);
 
