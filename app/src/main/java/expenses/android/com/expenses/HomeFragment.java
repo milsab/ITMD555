@@ -105,27 +105,6 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         displayExpenses();
-        total = ((MainActivity) getActivity()).getTotalCost();
-        remaining = ((MainActivity) getActivity()).getRemainingAmount();
-        budget = ((MainActivity) getActivity()).getBudgetAmount();
-
-
-        //calculate progress percentage
-        if(budget == 0){
-            consumptionPercent = 0;
-        } else{
-            consumptionPercent = (double)total/budget * 100;
-        }
-        if(consumptionPercent >= 90){
-            arcProgress.setTextColor(Color.RED);
-            txtTotal.setTextColor(Color.RED);
-            txtRemaining.setTextColor(Color.RED);
-        } else{
-            arcProgress.setTextColor(Color.GREEN);
-            txtTotal.setTextColor(Color.BLUE);
-            txtRemaining.setTextColor(Color.BLUE);
-        }
-        arcProgress.setProgress((int)consumptionPercent);
     }
 
     private void displayExpenses(){

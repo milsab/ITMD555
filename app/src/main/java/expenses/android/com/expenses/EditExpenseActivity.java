@@ -209,13 +209,18 @@ public class EditExpenseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_save:
-                saveExpense();
-                int result = (int) amount;
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result",result);
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
-                return true;
+                if(validate()){
+                    saveExpense();
+                    int result = (int) amount;
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result",result);
+                    setResult(Activity.RESULT_OK,returnIntent);
+                    finish();
+                    return true;
+                } else {
+                    return false;
+                }
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -260,5 +265,19 @@ public class EditExpenseActivity extends AppCompatActivity {
             }
         }
         return index;
+    }
+
+    public boolean validate(){
+        boolean status = true;
+        if(mEditExpenseTitle.getText().toString().trim().equals("")) {
+            Toast.makeText(getApplicationContext(), "Title is Required",
+                    Toast.LENGTH_SHORT).show();
+            status = false;
+        } else if (mEditAmountExpense.getText().toString().trim().equals("")) {
+            Toast.makeText(getApplicationContext(), "Amount is Required",
+                    Toast.LENGTH_SHORT).show();
+            status = false;
+        }
+        return status;
     }
 }
