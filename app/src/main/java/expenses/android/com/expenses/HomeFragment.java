@@ -148,7 +148,7 @@ public class HomeFragment extends Fragment {
 
         Cursor cursor = mExpenseDbHelper.getLatestExpenses();
 
-        if(cursor != null){
+        if(cursor != null || cursor.getColumnCount() == 0){
             expenseAdapter.swapCursor(cursor);
         }else{
             TextView textView = (TextView)theView.findViewById(R.id.list_empty_message);

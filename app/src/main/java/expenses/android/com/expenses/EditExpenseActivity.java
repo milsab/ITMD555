@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import java.util.Calendar;
 
 import expenses.android.com.expenses.data.ExpenseContract;
 import expenses.android.com.expenses.data.ExpenseDBHelper;
+import expenses.android.com.expenses.util.Prefs;
 import expenses.android.com.expenses.util.Utils;
 
 
@@ -175,11 +177,22 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     private void saveExpense(){
 
+
+
+
         ContentValues contentValues = new ContentValues();
 
         String title = mEditExpenseTitle.getText().toString().trim();
         String description = mEditDescriptionExpense.getText().toString().trim();
         amount = Double.parseDouble(mEditAmountExpense.getText().toString().trim());
+
+
+
+        //Update the remaining in SharedPreferences
+        float limit = Prefs.getLimit(this);
+        float total = Prefs.getTotal(this);
+        Prefs.setRemaining(this,limit - total);
+
         long date = Utils.getDateLong(dateView.getText().toString().trim());
 
 
@@ -209,6 +222,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_save:
                 if(validate()){
+
                     saveExpense();
                     int result = (int) amount;
                     Intent returnIntent = new Intent();
@@ -276,6 +290,14 @@ public class EditExpenseActivity extends AppCompatActivity {
         } else if (mEditAmountExpense.getText().toString().trim().equals("")) {
             Toast.makeText(getApplicationContext(), "Amount is Required",
                     Toast.LENGTH_SHORT).show();
+            status = false;
+        }
+
+        double amount = Integer.parseInt(mEditAmountExpense.getText().toString().trim());
+        double remaining = Prefs.getRemaining(this);
+        Log.d("EditActivity", "Remaining:" + remaining + ", amount:"  + amount);
+        if(amount > remaining){
+            Toast.makeText(this, "Cannot add expense, change limit", Toast.LENGTH_SHORT).show();
             status = false;
         }
         return status;
