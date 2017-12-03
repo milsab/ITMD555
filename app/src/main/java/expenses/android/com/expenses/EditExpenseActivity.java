@@ -53,6 +53,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     private Float remaining;
     private Float total;
+    private Button btnDelete;
 
 
     private ExpenseDBHelper mExpenseDBHelper;
@@ -70,6 +71,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         mEditAmountExpense = (EditText) findViewById(R.id.edit_amount_expense);
         mSpinnerCategory = (Spinner) findViewById(R.id.spinner_category);
         dateView = (EditText) findViewById(R.id.date_view);
+        btnDelete = (Button) findViewById(R.id.btnDelete);
 
         // Pops up keyboard when add expense activity starts
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -96,11 +98,13 @@ public class EditExpenseActivity extends AppCompatActivity {
         if(i.getStringExtra("action").equals("add")){
             mAction = "add";
             setTitle("Add Expense");
+            btnDelete.setVisibility(View.GONE);
         }else{
             setTitle("Edit Expense");
             mAction = "edit";
             mExpenseId = i.getIntExtra("id",-1);
             populateData(mExpenseId);
+            btnDelete.setVisibility(View.VISIBLE);
             //Toast.makeText(getApplicationContext(),"The id is :" + mExpenseId,Toast.LENGTH_SHORT).show();
         }
 
@@ -110,6 +114,18 @@ public class EditExpenseActivity extends AppCompatActivity {
         Log.d("MILAD", "TOTAL in Edit: " + total);
 
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mExpenseDBHelper = new ExpenseDBHelper(getApplicationContext());
+                mExpenseDBHelper.deleteById(mExpenseId);
+                Toast.makeText(getApplicationContext(),"Expense Deleted", Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result","DELETE");
+                setResult(1039,returnIntent);
+                finish();
+            }
+        });
     }
 
     public void set_date(View view) {
@@ -295,7 +311,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             status = false;
         } else if (
-                (( Double.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
+                (( Float.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
                 ){
             Toast.makeText(getApplicationContext(), "Cannot add expense, change limit",
                     Toast.LENGTH_SHORT).show();

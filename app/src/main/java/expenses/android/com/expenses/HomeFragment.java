@@ -203,6 +203,19 @@ public class HomeFragment extends Fragment {
                 txtRemaining.setText("Remaining: $" + String.format("%.2f", remaining));
                 colorChanger();
 
+            } else if(resultCode == 1039){
+                if(budget == 0){
+                    consumptionPercent = 0;
+                } else{
+                    consumptionPercent = (double)total/budget * 100;
+                }
+
+                ((MainActivity) getActivity()).setTotalCost(total);
+                ((MainActivity) getActivity()).setRemainingAmount(remaining);
+
+                txtTotal.setText("$ " + String.format("%.2f", total));
+                txtRemaining.setText("Remaining: $" + String.format("%.2f", remaining));
+                colorChanger();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

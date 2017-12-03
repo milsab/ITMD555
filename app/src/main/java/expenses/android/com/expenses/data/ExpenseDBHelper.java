@@ -71,7 +71,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void deletePet(int id) {
+    public void deleteById(int id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM expense WHERE _id = " + id);
     }
