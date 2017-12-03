@@ -140,7 +140,8 @@ public class ReportsFragment extends Fragment{
         mTotalTextView = (TextView)theView.findViewById(R.id.total_view_report);
         mCategorySpinnerLabel = (TextView)theView.findViewById(R.id.category_spinner_label);
 
-        mTotalTextView.setText("Total: " + String.valueOf(((MainActivity) getActivity()).getTotalCost()));
+//        mTotalTextView.setText("Total: " + String.valueOf(((MainActivity) getActivity()).getTotalCost()));
+        mTotalTextView.setText("Total: " + String.format( "%.2f", ((MainActivity) getActivity()).getTotalCost()));
 
         setupSpinner();
         return theView;
