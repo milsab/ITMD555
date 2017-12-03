@@ -1,11 +1,11 @@
 <resources>
 
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">Source Sans Pro</item>
+        <item name="android:fontFamily">RobotoTextViewStyle</item>
     </style>
 
     <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
-        <item name="android:fontFamily">Source Sans Pro</item>
+        <item name="android:fontFamily">RobotoButtonStyle</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
