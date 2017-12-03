@@ -91,6 +91,8 @@ public class HomeFragment extends Fragment {
                 String idText = textView.getText().toString();
                 i.putExtra("id",Integer.parseInt(idText));
                 i.putExtra("action","edit");
+                i.putExtra("A", remaining);
+                i.putExtra("B", total);
                 startActivityForResult(i, 1);
             }
         });

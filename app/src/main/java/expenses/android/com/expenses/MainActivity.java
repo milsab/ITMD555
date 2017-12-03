@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.wtf("MainActivity","totalCost" + totalCost);
 
         int amount = sharedPref.getInt("REMAINING", 0);
+        Log.d("MILAD", "REMAINING: " + amount);
         remainingAmount = amount;
         Log.wtf("MainActivity","remainingAmount---------------->" + remainingAmount);
 
@@ -87,9 +89,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, EditExpenseActivity.class);
                 i.putExtra("action", "add");
-                i.putExtra("remaining", remainingAmount);
-
+                i.putExtra("A", remainingAmount);
+                i.putExtra("B", totalCost);
+                Log.d("MILAD", "TOTAL: " + totalCost);
                 startActivityForResult(i, 1);
+                //Toast.makeText(getApplicationContext(), "MILAD SABOURI: " + remainingAmount, Toast.LENGTH_SHORT).show();
             }
         });
     }

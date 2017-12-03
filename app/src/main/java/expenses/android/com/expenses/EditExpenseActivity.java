@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -50,7 +51,8 @@ public class EditExpenseActivity extends AppCompatActivity {
     private String mAction;
     private String mDate;
 
-    private double remaining;
+    private int remaining;
+    private int total;
 
 
     private ExpenseDBHelper mExpenseDBHelper;
@@ -99,12 +101,13 @@ public class EditExpenseActivity extends AppCompatActivity {
             mAction = "edit";
             mExpenseId = i.getIntExtra("id",-1);
             populateData(mExpenseId);
-            Toast.makeText(getApplicationContext(),"The id is :" + mExpenseId,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"The id is :" + mExpenseId,Toast.LENGTH_SHORT).show();
         }
 
-        remaining = i.getDoubleExtra("remaining", 0);
-
-        Toast.makeText(getApplicationContext(), "remaining" + remaining, Toast.LENGTH_SHORT).show();
+        remaining = i.getIntExtra("A", 0);
+        Log.d("MILAD", "REMAINING in Edit: " + remaining);
+        total = i.getIntExtra("B", 0);
+        Log.d("MILAD", "TOTAL in Edit: " + total);
 
 
     }
@@ -135,7 +138,6 @@ public class EditExpenseActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                  CategoryItem categoryItem = (CategoryItem)parent.getItemAtPosition(position);
                  String selection = categoryItem.getCategory();
-                  Toast.makeText(getApplicationContext(),"Selected item" + selection,Toast.LENGTH_SHORT).show();
                 if (!TextUtils.isEmpty(selection)) {
                     mCategory = selection;
                 }
@@ -184,17 +186,11 @@ public class EditExpenseActivity extends AppCompatActivity {
 
 
     private void saveExpense(){
-
-
-
-
         ContentValues contentValues = new ContentValues();
 
         String title = mEditExpenseTitle.getText().toString().trim();
         String description = mEditDescriptionExpense.getText().toString().trim();
         amount = Double.parseDouble(mEditAmountExpense.getText().toString().trim());
-
-
 
         //Update the remaining in SharedPreferences
         float limit = Prefs.getLimit(this);
@@ -209,7 +205,6 @@ public class EditExpenseActivity extends AppCompatActivity {
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_AMOUNT,amount);
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_DATE,date);
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_CATEGORY,mCategory);
-
 
         if(mAction.equals("add")){
             mExpenseDBHelper.insertExpense(contentValues);
@@ -299,15 +294,14 @@ public class EditExpenseActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Amount is Required",
                     Toast.LENGTH_SHORT).show();
             status = false;
-        }
-
-        double amount = Integer.parseInt(mEditAmountExpense.getText().toString().trim());
-        double remaining = Prefs.getRemaining(this);
-        Log.d("EditActivity", "Remaining:" + remaining + ", amount:"  + amount);
-        if(amount > remaining){
-            Toast.makeText(this, "Cannot add expense, change limit", Toast.LENGTH_SHORT).show();
+        } else if (
+                (( Integer.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
+                ){
+            Toast.makeText(getApplicationContext(), "Cannot add expense, change limit",
+                    Toast.LENGTH_SHORT).show();
             status = false;
         }
+
         return status;
     }
 }
