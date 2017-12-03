@@ -35,13 +35,14 @@ public class ExpenseAdapter extends CursorAdapter {
 
         int id = cursor.getInt(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry._ID));
         String title = cursor.getString(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry.COLUMN_NAME_TITLE));
-        String description = cursor.getString(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry.COLUMN_NAME_DESCRIPTION));
+//        String description = cursor.getString(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry.COLUMN_NAME_DESCRIPTION));
+        String category = cursor.getString(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry.COLUMN_NAME_CATEGORY));
         double amount = cursor.getDouble(cursor.getColumnIndexOrThrow(ExpenseContract.ExpenseEntry.COLUMN_NAME_AMOUNT));
 
         String formattedAmount = NumberFormat.getInstance().format(amount);
 
         titleTextView.setText(title);
-        descriptionTextView.setText(description);
+        descriptionTextView.setText(category);
         amountTextView.setText("$" + formattedAmount);
         idTextViewHidden.setText(String.valueOf(id));
 
