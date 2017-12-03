@@ -47,22 +47,28 @@ public class SettingsFragment extends Fragment {
                 budget = Integer.parseInt(txtBudget.getText().toString());
 
                 amount = budget - ((MainActivity) getActivity()).getTotalCost();
+                if(amount > 0){
+                    sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putInt("REMAINING", amount);
+                    editor.apply();
 
-                sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt("REMAINING", amount);
-                editor.apply();
+                    editor.putInt("BUDGET", budget);
+                    editor.apply();
 
-                editor.putInt("BUDGET", budget);
-                editor.apply();
-
-                // change the value in Mainactivity
-                ((MainActivity) getActivity()).setRemainingAmount(amount);
-                ((MainActivity) getActivity()).setBudgetAmount(budget);
+                    // change the value in Mainactivity
+                    ((MainActivity) getActivity()).setRemainingAmount(amount);
+                    ((MainActivity) getActivity()).setBudgetAmount(budget);
 
 
-                Toast.makeText(getActivity(), "Budget Set:" + budget,
-                        Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Budget Set:" + budget,
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Budget is less than total cost. Change the Budget",
+                            Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
 
