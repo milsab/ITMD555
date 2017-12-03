@@ -295,7 +295,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             status = false;
         } else if (
-                (( Integer.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
+                (( Double.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
                 ){
             Toast.makeText(getApplicationContext(), "Cannot add expense, change limit",
                     Toast.LENGTH_SHORT).show();

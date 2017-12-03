@@ -86,18 +86,21 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView amount = (TextView)view.findViewById(R.id.amount_text_view);
-                String s = amount.getText().toString();
+                String ss = amount.getText().toString();
+                String s = ss.replace(",", "");
+//                Log.d("MO", "TOTAL: " + total);
 
-                try {
-                    Number backtoString = NumberFormat.getInstance().parse(s);
-                    Log.wtf("HomeFrag", "amount" + backtoString);
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Number backtoString = NumberFormat.getInstance().parse(s);
+//                    Log.wtf("HomeFrag", "amount" + backtoString);
+//                } catch (java.text.ParseException e) {
+//                    e.printStackTrace();
+//                }
 
 
-//                total = total - Integer.parseInt(s.substring(0, s.length() - 1));
-//                remaining = remaining + Integer.parseInt(s.substring(0, s.length() - 1));
+                total = total - Integer.parseInt(s.substring(1, s.length() ));
+                Log.d("MO", "TOTAL: " + total);
+                remaining = remaining + Integer.parseInt(s.substring(1, s.length() ));
 
                 Intent i = new Intent(getContext(),EditExpenseActivity.class);
                 TextView textView = (TextView)view.findViewById(R.id.id_text_view);

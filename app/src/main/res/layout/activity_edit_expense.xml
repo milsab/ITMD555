@@ -49,7 +49,7 @@
 
             <EditText
                 android:id="@+id/edit_amount_expense"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/EditorFieldStyle"
                 android:paddingTop="6dp"
                 android:layout_width="0dp"
