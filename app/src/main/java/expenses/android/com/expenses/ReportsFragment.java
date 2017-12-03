@@ -1,6 +1,7 @@
 package expenses.android.com.expenses;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,7 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,6 +31,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ReportsFragment extends Fragment{
 
@@ -38,8 +41,8 @@ public class ReportsFragment extends Fragment{
     private TextView mCategorySpinnerLabel;
     private String mCategory;
 
-    private Button mDateFrom;
-    private Button mDateTo;
+    private static Button mDateFrom;
+    private static  Button mDateTo;
     private int mYearFrom;
     private int mMonthFrom;
     private int mDayFrom;
@@ -47,7 +50,9 @@ public class ReportsFragment extends Fragment{
     private int mMonthTo;
     private int mDayTo;
 
-    private PieChart pieChart;
+    private static boolean mFromClicked = false;
+    private static boolean mToClicked = false;
+
 
 
     ViewPager viewPager;
@@ -55,26 +60,6 @@ public class ReportsFragment extends Fragment{
     TabLayout tabLayout;
 
 
-
-    DatePickerDialog.OnDateSetListener mDateFromSetListener = new DatePickerDialog.OnDateSetListener() {
-
-        public void onDateSet(DatePicker view, int year,
-                              int monthOfYear, int dayOfMonth) {
-            mYearFrom = year;
-            mMonthFrom = monthOfYear;
-            mDayFrom = dayOfMonth;
-        }
-    };
-
-    DatePickerDialog.OnDateSetListener mDateToSetListener = new DatePickerDialog.OnDateSetListener() {
-
-        public void onDateSet(DatePicker view, int year,
-                              int monthOfYear, int dayOfMonth) {
-            mYearTo = year;
-            mMonthTo = monthOfYear;
-            mDayTo = dayOfMonth;
-        }
-    };
 
     @Nullable
     @Override
@@ -93,6 +78,7 @@ public class ReportsFragment extends Fragment{
                /* DatePickerDialog d = new DatePickerDialog(getActivity(),
                         R.style.AppTheme, mDateFromSetListener, mYearFrom, mMonthFrom, mDayFrom);
                 d.show();*/
+                mFromClicked = true;
                 DialogFragment picker = new DatePickerFragment();
                 picker.show(getFragmentManager(), "datePicker");
             }
@@ -101,6 +87,7 @@ public class ReportsFragment extends Fragment{
         mDateTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mToClicked = true;
                 DialogFragment picker = new DatePickerFragment();
                 picker.show(getFragmentManager(), "datePicker");
             }
@@ -207,46 +194,37 @@ public class ReportsFragment extends Fragment{
 
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            Calendar c = Calendar.getInstance();
-            c.set(year, month, day);
+            showDate(year, month + 1, day);
+        }
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = sdf.format(c.getTime());
+        private void showDate(int year, int month, int day) {
+            String date = new StringBuilder().append(day).append("/")
+                    .append(month).append("/").append(year).toString();
+            if(mFromClicked){
+                mDateFrom.setText(date);
+                mFromClicked = false;
+            }else if(mToClicked){
+                mDateTo.setText(date);
+                mToClicked = false;
+            }
         }
     }
 
-
-
-
+    @SuppressLint("RestrictedApi")
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("ReportsTag","onDestroy()");
-        viewPager = null;
-        tabLayout = null;
-    }
+        List<Fragment> fragments = this.getFragmentManager().getFragments();
+        if(fragments != null){
+            FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+            for(Fragment f : fragments){
+                if(f instanceof PieChartFragment || f instanceof BarChartFragment || f instanceof  ListViewFragment){
+                    ft.remove(f);
+                }
+            }
+            ft.commitAllowingStateLoss();
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(chartPagerAdapter == null){
-            this.chartPagerAdapter.notifyDataSetChanged();
-            this.viewPager.setAdapter(chartPagerAdapter);
         }
-
-        Log.d("ReportsFragment","onResume()");
+        Log.d("ReportsTag","onDestroy()");
     }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d("ReportsTag","onDetach()");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("ReportsTag","onPause()");
-    }
-
 }
