@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.Calendar;
 
@@ -38,7 +40,6 @@ public class HomeFragment extends Fragment {
     ExpenseDBHelper mExpenseDbHelper;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment {
         arcProgress = (ArcProgress) theView.findViewById(R.id.arc_progress);
         listView = (ListView)theView.findViewById(R.id.expense_list_view);
         month = (TextView) theView.findViewById(R.id.text_month);
+
 
         // Get sharedpreferences values
         total = ((MainActivity) getActivity()).getTotalCost();
@@ -71,6 +73,7 @@ public class HomeFragment extends Fragment {
         txtTotal.setText("$ " + String.valueOf(total));
         txtRemaining.setText("Remaining: $" + String.valueOf(remaining));
 
+
         Log.wtf("HomeFragment", "Current Month:" + Calendar.getInstance().get(Calendar.MONTH));
         monthTxtChanger();
         colorChanger();
@@ -84,8 +87,18 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView amount = (TextView)view.findViewById(R.id.amount_text_view);
                 String s = amount.getText().toString();
-                total = total - Integer.parseInt(s.substring(0, s.length() - 1));
-                remaining = remaining + Integer.parseInt(s.substring(0, s.length() - 1));
+
+                try {
+                    Number backtoString = NumberFormat.getInstance().parse(s);
+                    Log.wtf("HomeFrag", "amount" + backtoString);
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+//                total = total - Integer.parseInt(s.substring(0, s.length() - 1));
+//                remaining = remaining + Integer.parseInt(s.substring(0, s.length() - 1));
+
                 Intent i = new Intent(getContext(),EditExpenseActivity.class);
                 TextView textView = (TextView)view.findViewById(R.id.id_text_view);
                 String idText = textView.getText().toString();
@@ -115,10 +128,13 @@ public class HomeFragment extends Fragment {
     // Change Home TextViews colors based on expense value
     public void colorChanger() {
         if (consumptionPercent >= 89) {
-            txtTotal.setTextColor(Color.RED);
+            txtTotal.setTextColor(ColorTemplate.rgb("#ce0606"));
+        } else if (consumptionPercent >= 50) {
+            arcProgress.setFinishedStrokeColor(ColorTemplate.rgb("#FFC30F"));
         } else {
             txtTotal.setTextColor(Color.BLACK);
             txtRemaining.setTextColor(Color.BLACK);
+            arcProgress.setFinishedStrokeColor(ColorTemplate.rgb("#04a0db"));
         }
 
         arcProgress.setProgress((int) consumptionPercent);
@@ -153,6 +169,7 @@ public class HomeFragment extends Fragment {
         }else{
             TextView textView = (TextView)theView.findViewById(R.id.list_empty_message);
             textView.setVisibility(View.VISIBLE);
+            textView.setText("Expenses are empty!");
         }
     }
 
