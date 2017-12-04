@@ -22,7 +22,12 @@ import java.util.List;
 
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 
-
+/**
+ * @author Expense Group
+ *
+ *         PieChartFragment class extends Fragment.Contains the methods
+ *         to populate the piechart based on the user search criteria
+ */
 public class PieChartFragment extends Fragment {
 
 
@@ -32,6 +37,12 @@ public class PieChartFragment extends Fragment {
     private long mDateFrom;
     private long mDateTo;
 
+    /**
+     * Set the search criteria values
+     *
+     * @param args bundle containing the key/value pairs for the search criteria
+     *
+     */
     @Override
     public void setArguments(Bundle args) {
         Log.d("PieChartFragment", "setArguments()");
@@ -46,6 +57,11 @@ public class PieChartFragment extends Fragment {
 
     }
 
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +73,11 @@ public class PieChartFragment extends Fragment {
         return theView;
     }
 
+    /**
+     * Populate the pie chart with data for the search criteria
+     *
+     * @return none
+     */
     private void setupPieChart() {
 
         Cursor c = mExpenseDbHelper.getExpensesCategoryDate(mDateFrom, mDateTo);
@@ -94,6 +115,11 @@ public class PieChartFragment extends Fragment {
         pieChart.invalidate();
     }
 
+    /**
+     * Populate the pie chart with data on fragment resume
+     *
+     * @return none
+     */
     @Override
     public void onResume() {
         super.onResume();

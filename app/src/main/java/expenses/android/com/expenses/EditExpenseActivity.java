@@ -30,7 +30,12 @@ import expenses.android.com.expenses.data.ExpenseDBHelper;
 import expenses.android.com.expenses.util.Prefs;
 import expenses.android.com.expenses.util.Utils;
 
-
+/**
+ * @author Expense Group
+ *
+ *         EditExpenseActivity class extends AppCompatActivity. Used for creating, updating,
+ *         deleteing a particular expense.
+ */
 public class EditExpenseActivity extends AppCompatActivity {
 
     private EditText mEditExpenseTitle;
@@ -89,6 +94,10 @@ public class EditExpenseActivity extends AppCompatActivity {
         //showDate(year, month+1, day);
 
 
+        /**
+         * Set up the spinner for the search criteria
+         *
+         */
         setupSpinner();
 
 
@@ -179,6 +188,13 @@ public class EditExpenseActivity extends AppCompatActivity {
                     showDate(arg1, arg2 + 1, arg3);
                 }};
 
+    /**
+     * Called when the user clicks the button mDateFrom
+     *
+     * @param id
+     *
+     * @return  Dialog object
+     */
     @Override
     protected Dialog onCreateDialog(int id) {
         // TODO Auto-generated method stub
@@ -195,12 +211,24 @@ public class EditExpenseActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Show the date choosen from the date picker dialog box
+     *
+     *
+     * @return none
+     */
     private void showDate(int year, int month, int day) {
         dateView.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
     }
 
 
+    /**
+     * Save the new expense
+     *
+     *
+     * @return none
+     */
     private void saveExpense(){
         ContentValues contentValues = new ContentValues();
 
@@ -259,6 +287,13 @@ public class EditExpenseActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Populate the views when user editing expense
+     *
+     *@param id
+     *          id used to retreive the particular row from expense table
+     * @return none
+     */
     private void populateData(int id){
         Cursor c = mExpenseDBHelper.getExpense(id);
         if(c.moveToFirst()){
@@ -288,6 +323,15 @@ public class EditExpenseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get the selected category from the custom spinner
+     *
+     *@param spinner
+     *
+     *@param category
+     *              category selected
+     * @return int index of the category selected
+     */
     private int getSelectionIndex(Spinner spinner, String category){
         int index = 0;
         for(int i = 0; i < spinner.getCount(); i++){
@@ -300,6 +344,11 @@ public class EditExpenseActivity extends AppCompatActivity {
         return index;
     }
 
+    /**
+     * Validate the input values before inserting/updating the expense
+     *
+     * @return boolean check if validation ok.
+     */
     public boolean validate() {
         boolean status = true;
         if (mEditExpenseTitle.getText().toString().trim().equals("")) {

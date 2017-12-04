@@ -9,12 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * @author Expense Group
+ *
+ *         AboutFragmet class extends the Fragment class. It is used for retreiving
+ *         the about page of the application
+ */
 public class AboutFragment extends Fragment {
 
     View theView;
 
     TextView mAboutTextView;
 
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

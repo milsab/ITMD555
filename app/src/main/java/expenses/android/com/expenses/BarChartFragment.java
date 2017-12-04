@@ -22,6 +22,12 @@ import java.util.List;
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 import expenses.android.com.expenses.util.Utils;
 
+/**
+ * @author Expense Group
+ *
+ *         BarChartFragment class extends Fragment.Contains the methods
+ *         to populate the barchart based on the user search criteria
+ */
 public class BarChartFragment extends Fragment {
 
     BarChart barChart;
@@ -30,7 +36,12 @@ public class BarChartFragment extends Fragment {
     private long mDateTo;
     ExpenseDBHelper mExpenseDbHelper;
 
-
+    /**
+     * Set the search criteria values
+     *
+     * @param args bundle containing the key/value pairs for the search criteria
+     *
+     */
     @Override
     public void setArguments(Bundle args) {
         Log.d("BarChartFragment", "setArguments()");
@@ -43,6 +54,11 @@ public class BarChartFragment extends Fragment {
         }
     }
 
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +70,11 @@ public class BarChartFragment extends Fragment {
         return theView;
     }
 
+    /**
+     * Populate the bar chart with data for the search criteria
+     *
+     * @return none
+     */
     private void setupBarChart() {
 
         Cursor cursor = mExpenseDbHelper.getExpensesCategoryDate(mDateFrom, mDateTo);
@@ -80,6 +101,11 @@ public class BarChartFragment extends Fragment {
     }
 
 
+    /**
+     * Populate the bar chart with data on fragment resume
+     *
+     * @return none
+     */
     @Override
     public void onResume() {
         super.onResume();

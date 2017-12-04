@@ -15,7 +15,12 @@ import java.util.List;
 /**
  * Created by Alex Wang on 12/1/17.
  */
-
+/**
+ * @author Expense Group
+ *
+ *         CategorySpinnerAdapter class extends the ArrayAdapter class. Used for the
+ *         custom spinner on category.
+ */
 public class CategorySpinnerAdapter extends ArrayAdapter<CategoryItem> {
 
     private final LayoutInflater mInflater;
@@ -33,12 +38,22 @@ public class CategorySpinnerAdapter extends ArrayAdapter<CategoryItem> {
         categoryItems = objects;
     }
 
+    /**
+     * Create a view  in the spinner
+     *
+     * @return none
+     */
     @Override
     public View getDropDownView(int position, @Nullable View convertView,
                                 @NonNull ViewGroup parent) {
         return createItemView(position, convertView, parent);
     }
 
+    /**
+     * Get the view for a particular view in the spinner
+     *
+     * @return none
+     */
     @Override
     public @NonNull
     View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

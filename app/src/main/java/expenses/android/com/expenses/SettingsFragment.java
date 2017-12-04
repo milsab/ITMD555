@@ -15,6 +15,12 @@ import android.widget.Toast;
 
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 
+/**
+ * @author Expense Group
+ *
+ *         SettingsFragment class extends the Fragment class. It is used for creating,
+ *         reading,updating,deleteing the Application's Settings.
+ */
 public class SettingsFragment extends Fragment {
 
     View theView;
@@ -26,6 +32,11 @@ public class SettingsFragment extends Fragment {
     SharedPreferences sharedPref;
     private ExpenseDBHelper mExpenseDBHelper;
 
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

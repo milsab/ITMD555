@@ -30,6 +30,13 @@ import java.util.List;
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 import expenses.android.com.expenses.util.Utils;
 
+/**
+ * @author Expense Group
+ *
+ *         ReportsFragment class extends the Fragment class. It is used for generating the
+ *         reports in a listview, piechart, barchart. Contains the search button to search
+ *         the expenses for a period in a specific category
+ */
 public class ReportsFragment extends Fragment {
 
     private static Button mDateFrom;
@@ -51,6 +58,11 @@ public class ReportsFragment extends Fragment {
     private boolean firstSearch = true;
     private int mDayTo;
 
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -185,25 +197,10 @@ public class ReportsFragment extends Fragment {
     }
 
 
-
-
-    /*private void setSearchBtn(){
-        mSearchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDateFromIntFormatted = Utils.getDateLong(mDateFrom.getText().toString());
-                mDateToIntFormatted = Utils.getDateLong(mDateTo.getText().toString());
-                destroyChartFragments();
-                Log.d("RequestFragment","After destroy");
-//                viewPager.setAdapter(null);
-
-                chartPagerAdapter =  new ChartPagerAdapter(getFragmentManager(),mDateFromIntFormatted,mDateToIntFormatted,mCategory, false);
-                viewPager.setAdapter(chartPagerAdapter);
-            }
-        });
-    }*/
-
-
+    /**
+     * Set up the spinner for the search criteria
+     *
+     */
     private void setupSpinner() {
         CategoryItem categoryItem = new CategoryItem();
         CategorySpinnerAdapter adapter = new CategorySpinnerAdapter(getContext(),
@@ -233,6 +230,16 @@ public class ReportsFragment extends Fragment {
         });
     }
 
+    /**
+     * Set up the total for the search criteria
+     *
+     * @param from
+     *            date period from
+     * @param to
+     *            date period to
+     * @param category
+     *            specific category to be searched on
+     */
     public void setUpTotal(long from, long to, String category) {
         Cursor c = mExpenseDbHelper.getTotalPeriodCategory(from, to, category);
         if (c.moveToNext()) {
@@ -243,6 +250,13 @@ public class ReportsFragment extends Fragment {
         }
     }
 
+    /**
+     * When the fragment destroyed, delete all the previous listview,piechart,barchart
+     * fragments previously created.
+     *
+     *
+     * @return none
+     */
     @SuppressLint("RestrictedApi")
     @Override
     public void onDestroy() {
@@ -251,6 +265,12 @@ public class ReportsFragment extends Fragment {
         Log.d("ReportsTag", "onDestroy()");
     }
 
+    /**
+     *Destroy the fragment instances of piechart, barchart, listcview fragments
+     *
+     *
+     * @return none
+     */
     @SuppressLint("RestrictedApi")
     private void destroyChartFragments() {
         List<Fragment> fragments = this.getFragmentManager().getFragments();
@@ -267,21 +287,42 @@ public class ReportsFragment extends Fragment {
         }
     }
 
+
+    /**
+     * @author Expense Group
+     *
+     *         DatePickerFragment class extends the DialogFragment class. It is used for creating
+     *         the date picker dialog.
+     */
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+        /**
+         * Called when the user clicks the button mDateFrom
+         *
+         * @param savedInstanceState
+         *            Retreive any previously saved bundleInstance
+         *
+         * @return  Dialog object
+         */
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-// Use the current date as the default date in the picker
+            // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-// Create a new instance of DatePickerDialog and return it
+            // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
+        /**
+         * Show the date choosen from the date picker dialog box
+         *
+         *
+         * @return none
+         */
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             showDate(year, month + 1, day);

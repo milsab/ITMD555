@@ -17,12 +17,22 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Expense Group
+ *
+ *         HelpFragment class extends AppCompatActivity.
+ */
 public class HelpFragment extends Fragment {
 
 
     View theView;
 
 
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

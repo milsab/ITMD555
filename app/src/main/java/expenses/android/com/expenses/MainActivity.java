@@ -18,6 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+/**
+ * @author Expense Group
+ *
+ *         MainActivity class extends AppCompatActivity, implements NavigationView.OnNavigationItemSelectedListener.
+ *         The main activity, containing all the fragments belonging to the application.
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static float totalCost = 100f;
@@ -109,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Refresh the data in MainActivity when changed.
+     *
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -134,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Show the current fragment based on the navigation menu
+     *
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -170,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /**------------------------------------------------------------
+     *                      Setters and Getters                   *
+     ------------------------------------------------------------*/
     public Float getTotalCost() {
 
         return totalCost;

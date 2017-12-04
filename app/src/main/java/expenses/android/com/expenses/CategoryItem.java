@@ -5,7 +5,11 @@ import java.util.ArrayList;
 /**
  * Created by Alex Wang on 12/1/17.
  */
-
+/**
+ * @author Expense Group
+ *
+ *         CategoryItem POJO class. Used to store information on a particular category.
+ */
 public class CategoryItem {
     String category;
     int icon;
@@ -37,6 +41,11 @@ public class CategoryItem {
         this.icon = icon;
     }
 
+    /**
+     * Add the categories to an ArrayList
+     *
+     * @return none
+     */
     public ArrayList addCategories() {
         ArrayList<CategoryItem> list = new ArrayList<>();
         list.add(new CategoryItem("general", R.drawable.ic_home));

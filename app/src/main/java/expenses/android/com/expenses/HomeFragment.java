@@ -25,6 +25,12 @@ import java.util.Calendar;
 
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 
+/**
+ * @author Expense Group
+ *
+ *         HomeFragment class extends AppCompatActivity. It is the fragment shown in the screen
+ *         when the User launches the application. Contains the expense details for the current month.
+ */
 public class HomeFragment extends Fragment {
 
     TextView txtTotal;
@@ -41,6 +47,11 @@ public class HomeFragment extends Fragment {
     ExpenseDBHelper mExpenseDbHelper;
 
 
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,6 +132,11 @@ public class HomeFragment extends Fragment {
         return theView;
     }
 
+    /**
+     * Change the Month TextView based on current month
+     *
+     * @return none
+     */
     // Change the Month TextView based on current month
     public void monthTxtChanger() {
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -135,6 +151,11 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Change Home TextViews colors based on expense value
+     *
+     * @return none
+     */
     // Change Home TextViews colors based on expense value
     public void colorChanger() {
         if (consumptionPercent >= 90) {
@@ -172,6 +193,11 @@ public class HomeFragment extends Fragment {
         colorChanger();
     }
 
+    /**
+     * Display the expenses on the list view
+     *
+     * @return none
+     */
     private void displayExpenses() {
 
         Cursor cursor = mExpenseDbHelper.getLatestExpenses();
@@ -185,6 +211,11 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Update the text views when the activity being loaded
+     *
+     * @return none
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

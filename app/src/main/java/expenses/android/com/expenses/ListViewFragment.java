@@ -14,7 +14,12 @@ import android.widget.Toast;
 
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 
-
+/**
+ * @author Expense Group
+ *
+ *         ListViewFragment class extends Fragment.Contains the methods
+ *         to populate the list view based on the user search criteria
+ */
 public class ListViewFragment extends Fragment {
 
     View theView;
@@ -28,7 +33,12 @@ public class ListViewFragment extends Fragment {
     private String mCategory;
     private boolean mDefault;
 
-
+    /**
+     * Set the search criteria values
+     *
+     * @param args bundle containing the key/value pairs for the search criteria
+     *
+     */
     @Override
     public void setArguments(Bundle args) {
         Log.d("ListViewFragment", "setArguments()");
@@ -41,7 +51,11 @@ public class ListViewFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Inflate the fragment within the activity being used
+     *
+     * @return theView containing the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +75,11 @@ public class ListViewFragment extends Fragment {
         return theView;
     }
 
+    /**
+     * Populate the bar chart with data on fragment start
+     *
+     * @return none
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -85,7 +104,17 @@ public class ListViewFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Populate the list view chart with data for the search criteria
+     *
+     * @param from
+     *              Date period from used to search data
+     *@param to
+     *              Date period to used to search data
+     * @param category
+     *              Category used to search data
+     * @return none
+     */
     private void displayPeriodExpenses(long from, long to, String category) {
         Cursor cursor = mExpenseDbHelper.searchExpenseByCategoryDate(from, to, category);
         if (cursor != null) {

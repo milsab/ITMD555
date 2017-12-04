@@ -13,19 +13,33 @@ import java.text.NumberFormat;
 
 import expenses.android.com.expenses.data.ExpenseContract;
 
-
+/**
+ * @author Expense Group
+ *
+ *         ExpenseAdapter class extends CursorAdapter. Custom adapter for the expense list view
+ */
 public class ExpenseAdapter extends CursorAdapter {
 
     public ExpenseAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
 
-
+    /**
+     * Create the views within the listview if not exist
+     *
+     * @return theView containing the fragment
+     */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
     }
 
+
+    /**
+     * Reuse the existing list item view, avoid memory leaks
+     *
+     * @return none
+     */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView titleTextView = (TextView) view.findViewById(R.id.title_text_view);
