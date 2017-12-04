@@ -1,6 +1,10 @@
 package expenses.android.com.expenses.domain;
 
-
+/**
+ * @author Expense Group
+ *
+ *         Expense POJO class. Used to store information on a particular expense.
+ */
 public class Expense {
 
     private int id;
