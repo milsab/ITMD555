@@ -4,6 +4,7 @@ package expenses.android.com.expenses;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.database.Cursor;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.os.Binder;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,12 +28,16 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import expenses.android.com.expenses.data.ExpenseDBHelper;
+import expenses.android.com.expenses.util.Utils;
 
 public class ReportsFragment extends Fragment{
 
@@ -43,11 +49,20 @@ public class ReportsFragment extends Fragment{
 
     private static Button mDateFrom;
     private static  Button mDateTo;
-    private int mYearFrom;
-    private int mMonthFrom;
-    private int mDayFrom;
-    private int mYearTo;
-    private int mMonthTo;
+
+    private long mDateFromIntFormatted;
+    private long mDateToIntFormatted;
+
+
+    private Button  mSearchBtn;
+
+    private ExpenseDBHelper mExpenseDbHelper;
+
+
+    private boolean firstSearch = true;
+
+
+
     private int mDayTo;
 
     private static boolean mFromClicked = false;
@@ -67,10 +82,10 @@ public class ReportsFragment extends Fragment{
         Log.d("ReportsFragment","onCreateView()");
         theView = inflater.inflate(R.layout.activity_reports, container, false);
 
-
-
         mDateFrom = (Button)theView.findViewById(R.id.set_from_date);
         mDateTo = (Button)theView.findViewById(R.id.set_to_date);
+
+        mExpenseDbHelper = new ExpenseDBHelper(theView.getContext());
 
         mDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +113,11 @@ public class ReportsFragment extends Fragment{
         getActivity().setTitle(getActivity().getString(R.string.reports_title));
 
         viewPager = (ViewPager)theView.findViewById(R.id.viewpager);
-        chartPagerAdapter = new ChartPagerAdapter(getFragmentManager());
-        viewPager.setAdapter(chartPagerAdapter);
+
+        mSearchBtn = (Button)theView.findViewById(R.id.search);
+
+//        chartPagerAdapter = new ChartPagerAdapter(getFragmentManager());
+//        viewPager.setAdapter(chartPagerAdapter);
         tabLayout = (TabLayout)theView.findViewById(R.id.sliding_tabs);
 
         tabLayout.setupWithViewPager(viewPager);
@@ -128,28 +146,91 @@ public class ReportsFragment extends Fragment{
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
         mTotalTextView = (TextView)theView.findViewById(R.id.total_view_report);
         mCategorySpinnerLabel = (TextView)theView.findViewById(R.id.category_spinner_label);
 
+        mTotalTextView.setVisibility(View.INVISIBLE);
+
+//        setSearchBtn();
+
 //        mTotalTextView.setText("Total: " + String.valueOf(((MainActivity) getActivity()).getTotalCost()));
-        mTotalTextView.setText("Total: " + String.format( "%.2f", ((MainActivity) getActivity()).getTotalCost()));
+
+//        mTotalTextView.setText("Total: " + String.valueOf(((MainActivity) getActivity()).getTotalCost()));
+
+
+//        mTotalTextView.setText("Total: " + String.format( "%.2f", ((MainActivity) getActivity()).getTotalCost()));
+
 
         setupSpinner();
+
+        mSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDateFromIntFormatted = Utils.getDateLong(mDateFrom.getText().toString());
+                mDateToIntFormatted = Utils.getDateLong(mDateTo.getText().toString());
+
+//                destroyChartFragments();
+                Log.d("RequestFragment","After destroy");
+                Bundle bundle = new Bundle();
+                bundle.putLong("dateFrom", mDateFromIntFormatted);
+                bundle.putLong("dateTo", mDateToIntFormatted);
+                bundle.putString("category", mCategory);
+
+
+                if(firstSearch){
+                    Log.d("ReportsFragment","Getting in search create chartAdapter");
+                    bundle.putBoolean("default", true);
+                    chartPagerAdapter = new ChartPagerAdapter(getFragmentManager());
+                    chartPagerAdapter.setBundle(bundle);
+                    viewPager.setAdapter(chartPagerAdapter);
+                    tabLayout.setupWithViewPager(viewPager);
+                }else if(!firstSearch){
+                    bundle.putBoolean("default", false);
+                    Log.d("ReportsFragment","Getting in search create chartAdapter");
+                    chartPagerAdapter.setBundle(bundle);
+//                    chartPagerAdapter.getItem(0);
+                }
+//                chartPagerAdapter.setBundle(bundle);
+                setUpTotal(mDateFromIntFormatted,mDateToIntFormatted,mCategory);
+
+                firstSearch = false;
+
+            }
+        });
+
+
+
         return theView;
     }
 
 
-    private void setupSpinner() {
 
+
+    /*private void setSearchBtn(){
+        mSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDateFromIntFormatted = Utils.getDateLong(mDateFrom.getText().toString());
+                mDateToIntFormatted = Utils.getDateLong(mDateTo.getText().toString());
+                destroyChartFragments();
+                Log.d("RequestFragment","After destroy");
+//                viewPager.setAdapter(null);
+
+                chartPagerAdapter =  new ChartPagerAdapter(getFragmentManager(),mDateFromIntFormatted,mDateToIntFormatted,mCategory, false);
+                viewPager.setAdapter(chartPagerAdapter);
+            }
+        });
+    }*/
+
+
+    private void setupSpinner() {
         CategoryItem categoryItem = new CategoryItem();
         CategorySpinnerAdapter adapter = new CategorySpinnerAdapter(getContext(),
                 R.layout.category_spinner, categoryItem.addCategories());
@@ -176,6 +257,16 @@ public class ReportsFragment extends Fragment{
 //                mGender = PetContract.PetEntry.GENDER_UNKNOWN; // Unknown
             }
         });
+    }
+
+    public void setUpTotal(long from, long to, String category){
+        Cursor c = mExpenseDbHelper.getTotalPeriodCategory(from,to,category);
+        if(c.moveToNext()){
+            double total = c.getDouble(0);
+            mTotalTextView.setText("Total: $" + total);
+            mTotalTextView.setVisibility(View.VISIBLE);
+
+        }
     }
 
     public static  class DatePickerFragment extends DialogFragment
@@ -215,17 +306,24 @@ public class ReportsFragment extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        destroyChartFragments();
+        Log.d("ReportsTag","onDestroy()");
+    }
+
+
+    @SuppressLint("RestrictedApi")
+    private void  destroyChartFragments(){
         List<Fragment> fragments = this.getFragmentManager().getFragments();
         if(fragments != null){
             FragmentTransaction ft = this.getFragmentManager().beginTransaction();
             for(Fragment f : fragments){
                 if(f instanceof PieChartFragment || f instanceof BarChartFragment || f instanceof  ListViewFragment){
+                    Log.d("Fragment destroyed",  f.getClass().getSimpleName());
                     ft.remove(f);
                 }
             }
             ft.commitAllowingStateLoss();
 
         }
-        Log.d("ReportsTag","onDestroy()");
     }
 }

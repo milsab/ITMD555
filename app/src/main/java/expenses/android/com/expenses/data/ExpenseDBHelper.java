@@ -84,15 +84,34 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
     }
 
     //Get expenses grouped by category(i.e groceries) for a date between x and y
-    public Cursor getExpensesCategoryDate(int dateFrom, int dateTo) {
+    public Cursor getExpensesCategoryDate(long dateFrom, long dateTo) {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT category, SUM(amount) amount " +
                 "FROM expense " +
                 "WHERE date BETWEEN " + dateFrom +
-                "AND " + dateTo +
-                "GROUP BY category);", null);
+                " AND " + dateTo +
+                " GROUP BY category", null);
 
+        return cursor;
+    }
+
+    //Get expenses grouped by category(i.e groceries) for a date between x and y
+    public Cursor searchExpenseByCategoryDate(long dateFrom, long dateTo, String category) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * " +
+                "FROM expense " +
+                "WHERE category='" + category +
+                "' AND date BETWEEN " + dateFrom + " AND " + dateTo,null);
+        return cursor;
+    }
+
+    public Cursor getTotalPeriodCategory(long dateFrom, long dateTo, String category){
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT SUM(amount) FROM expense WHERE category='"
+                + category +  "' AND date BETWEEN " + dateFrom + " AND " + dateTo,null);
         return cursor;
     }
 
@@ -101,3 +120,8 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM expense");
     }
 }
+
+
+
+
+

@@ -23,15 +23,22 @@
         <Button
             android:id="@+id/set_from_date"
             android:text="From"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/set_to_date"
             android:text="To"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:drawableEnd="@drawable/ic_action"
+            android:layout_weight="0.7"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -86,7 +93,6 @@
             android:layout_height="0dp"
             android:layout_weight="0.12"
             android:fontFamily="sans-serif-medium"
-            android:text="Total: 2000$"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="18sp" />
 
