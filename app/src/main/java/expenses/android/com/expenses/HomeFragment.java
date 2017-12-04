@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -132,8 +133,9 @@ public class HomeFragment extends Fragment {
 
     // Change Home TextViews colors based on expense value
     public void colorChanger() {
-        if (consumptionPercent >= 89) {
+        if (consumptionPercent >= 90) {
             txtTotal.setTextColor(ColorTemplate.rgb("#ce0606"));
+            Toast.makeText(getActivity().getApplicationContext(),"WARNING: You've reached the 90% of your budjet", Toast.LENGTH_SHORT).show();
         } else if (consumptionPercent >= 50) {
             arcProgress.setFinishedStrokeColor(ColorTemplate.rgb("#FFC30F"));
         } else {
