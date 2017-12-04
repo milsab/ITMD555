@@ -3,9 +3,13 @@ package expenses.android.com.expenses.util;
 
 import android.util.Log;
 
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 public class Utils {
 
@@ -58,5 +62,12 @@ public class Utils {
         }
         return new StringBuilder().append(amount).append(currency).toString();
 
+    }
+
+
+    public static int generateRandomColor(){
+        Random r = new Random();
+        int i = r.nextInt(ColorTemplate.COLORFUL_COLORS.length - 1) + 1;
+        return ColorTemplate.COLORFUL_COLORS[i];
     }
 }
