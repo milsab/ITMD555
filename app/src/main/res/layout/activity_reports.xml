@@ -23,23 +23,22 @@
         <Button
             android:id="@+id/set_from_date"
             android:text="From"
-            android:layout_weight="2"
+            android:layout_weight="0.45"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/set_to_date"
             android:text="To"
-            android:layout_weight="2"
+            android:layout_weight="0.45"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/search"
-            android:layout_width="0dp"
-            android:drawableEnd="@drawable/ic_action"
-            android:layout_weight="0.7"
-            android:layout_height="wrap_content" />
+            android:layout_width="40dp"
+            android:background="@drawable/ic_action"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 

@@ -73,6 +73,10 @@ public class HomeFragment extends Fragment {
         //Set values
         txtTotal.setText("$ " + String.format("%.2f", total));
         txtRemaining.setText("Remaining: $" + String.format("%.2f", remaining));
+        String formattedAmount = java.text.NumberFormat.getInstance().format(total);
+        String formattedRemaining = java.text.NumberFormat.getInstance().format(remaining);
+        txtTotal.setText("$ " + String.valueOf(formattedAmount));
+        txtRemaining.setText("Remaining: $" + String.valueOf(formattedRemaining));
 
 
         Log.wtf("HomeFragment", "Current Month:" + Calendar.getInstance().get(Calendar.MONTH));
@@ -145,6 +149,7 @@ public class HomeFragment extends Fragment {
         }
 
         arcProgress.setProgress((int) consumptionPercent);
+        arcProgress.setTextColor(Color.BLACK);
     }
 
     @Override
