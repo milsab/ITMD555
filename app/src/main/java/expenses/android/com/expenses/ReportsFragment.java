@@ -215,10 +215,10 @@ public class ReportsFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CategoryItem categoryItem = (CategoryItem) parent.getItemAtPosition(position);
                 String selection = categoryItem.getCategory();
-                Toast.makeText(getContext(), "Selected item" + selection, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Selected item" + selection, Toast.LENGTH_SHORT).show();
                 if (!TextUtils.isEmpty(selection)) {
                     mCategory = selection;
-                    Toast.makeText(getContext(), "Category selected:" + mCategory, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "Category selected:" + mCategory, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -244,7 +244,7 @@ public class ReportsFragment extends Fragment {
         Cursor c = mExpenseDbHelper.getTotalPeriodCategory(from, to, category);
         if (c.moveToNext()) {
             double total = c.getDouble(0);
-            mTotalTextView.setText("Total: $" + total);
+            mTotalTextView.setText("Total: $" + String.format("%.2f", total));
             mTotalTextView.setVisibility(View.VISIBLE);
 
         }
