@@ -3,10 +3,9 @@ package expenses.android.com.expenses;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class SettingsFragment extends Fragment {
                 budget = Float.valueOf(txtBudget.getText().toString());
 
                 amount = budget - ((MainActivity) getActivity()).getTotalCost();
-                if(amount > 0){
+                if (amount > 0) {
                     sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putFloat("REMAINING", amount);
@@ -99,7 +98,7 @@ public class SettingsFragment extends Fragment {
                 mExpenseDBHelper.deleteAll();
 
 
-                Toast.makeText(getActivity(), "Values Reset" ,
+                Toast.makeText(getActivity(), "Values Reset",
                         Toast.LENGTH_SHORT).show();
             }
         });

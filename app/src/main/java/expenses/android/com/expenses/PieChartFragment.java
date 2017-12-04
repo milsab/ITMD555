@@ -27,20 +27,20 @@ public class PieChartFragment extends Fragment {
 
 
     View theView;
+    ExpenseDBHelper mExpenseDbHelper;
     private PieChart pieChart;
     private long mDateFrom;
     private long mDateTo;
-    ExpenseDBHelper mExpenseDbHelper;
 
     @Override
     public void setArguments(Bundle args) {
         Log.d("PieChartFragment", "setArguments()");
-        if(args != null){
-            Log.d("ListViewFragment","args search");
+        if (args != null) {
+            Log.d("ListViewFragment", "args search");
             mDateFrom = args.getLong("dateFrom");
             mDateTo = args.getLong("dateTo");
-            Log.d("PieChartFragment","mDateFrom: " + mDateFrom);
-            Log.d("PieChartFragment","mDateTo: " + mDateTo);
+            Log.d("PieChartFragment", "mDateFrom: " + mDateFrom);
+            Log.d("PieChartFragment", "mDateTo: " + mDateTo);
 
         }
 
@@ -49,31 +49,31 @@ public class PieChartFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("PieChart","onCreateView()");
+        Log.d("PieChart", "onCreateView()");
         theView = inflater.inflate(R.layout.activity_pie_chart, container, false);
         mExpenseDbHelper = new ExpenseDBHelper(theView.getContext());
-        pieChart = (PieChart)theView.findViewById(R.id.pie_chart);
+        pieChart = (PieChart) theView.findViewById(R.id.pie_chart);
         setupPieChart();
         return theView;
     }
 
-    private void setupPieChart(){
+    private void setupPieChart() {
 
-        Cursor c = mExpenseDbHelper.getExpensesCategoryDate(mDateFrom,mDateTo);
+        Cursor c = mExpenseDbHelper.getExpensesCategoryDate(mDateFrom, mDateTo);
         List<PieEntry> pieEntries = new ArrayList<>();
-        Log.wtf("PieChart","setupPieChart()");
+        Log.wtf("PieChart", "setupPieChart()");
 
-        while(c.moveToNext()){
+        while (c.moveToNext()) {
             String category = c.getString(0);
             float amount = c.getFloat(1);
-            pieEntries.add(new PieEntry(amount,category));
+            pieEntries.add(new PieEntry(amount, category));
 
         }
        /* pieEntries.add(new PieEntry(32.4f, "Groceries"));
         pieEntries.add(new PieEntry(38.4f, "Gas"));
         pieEntries.add(new PieEntry(21.4f, "Bank"));*/
 
-        PieDataSet dataSet = new PieDataSet(pieEntries,"");
+        PieDataSet dataSet = new PieDataSet(pieEntries, "");
 
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setSelectionShift(5f);
@@ -85,7 +85,7 @@ public class PieChartFragment extends Fragment {
 
         pieChart.setDrawHoleEnabled(true);
         pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5,10,5,5);
+        pieChart.setExtraOffsets(5, 10, 5, 5);
         pieChart.setHoleRadius(30f);
         pieChart.setTransparentCircleRadius(43f);
 
@@ -103,37 +103,37 @@ public class PieChartFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("PieChart","onDestroy()");
+        Log.d("PieChart", "onDestroy()");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("PieChart","onDetach()");
+        Log.d("PieChart", "onDetach()");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("PieChart","onPause()");
+        Log.d("PieChart", "onPause()");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("PieChart","onDestroyView()");
+        Log.d("PieChart", "onDestroyView()");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("PieChart","onStop()");
+        Log.d("PieChart", "onStop()");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("PieChart","onStart()");
+        Log.d("PieChart", "onStart()");
     }
 
 }

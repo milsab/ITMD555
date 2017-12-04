@@ -22,7 +22,7 @@ import java.util.List;
 import expenses.android.com.expenses.data.ExpenseDBHelper;
 import expenses.android.com.expenses.util.Utils;
 
-public class BarChartFragment  extends Fragment {
+public class BarChartFragment extends Fragment {
 
     BarChart barChart;
     View theView;
@@ -34,36 +34,36 @@ public class BarChartFragment  extends Fragment {
     @Override
     public void setArguments(Bundle args) {
         Log.d("BarChartFragment", "setArguments()");
-        if(args != null){
-            Log.d("ListViewFragment","args search");
+        if (args != null) {
+            Log.d("ListViewFragment", "args search");
             mDateFrom = args.getLong("dateFrom");
             mDateTo = args.getLong("dateTo");
-            Log.d("PieChartFragment","mDateFrom: " + mDateFrom);
-            Log.d("PieChartFragment","mDateTo: " + mDateTo);
+            Log.d("PieChartFragment", "mDateFrom: " + mDateFrom);
+            Log.d("PieChartFragment", "mDateTo: " + mDateTo);
         }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("BarChart","onCreateView()");
+        Log.d("BarChart", "onCreateView()");
         theView = inflater.inflate(R.layout.activity_bar_chart, container, false);
-        barChart = (BarChart)theView.findViewById(R.id.bar_chart);
+        barChart = (BarChart) theView.findViewById(R.id.bar_chart);
         mExpenseDbHelper = new ExpenseDBHelper(theView.getContext());
         setupBarChart();
         return theView;
     }
 
-    private void setupBarChart(){
+    private void setupBarChart() {
 
-        Cursor cursor = mExpenseDbHelper.getExpensesCategoryDate(mDateFrom,mDateTo);
+        Cursor cursor = mExpenseDbHelper.getExpensesCategoryDate(mDateFrom, mDateTo);
         BarData barData = new BarData();
 
         float categoryPosition = 1f;
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             List<BarEntry> category = new ArrayList<>();
             category.add(new BarEntry(categoryPosition, cursor.getFloat(1)));
-            BarDataSet barDataSetCategory = new BarDataSet(category,cursor.getString(0));
+            BarDataSet barDataSetCategory = new BarDataSet(category, cursor.getString(0));
             barDataSetCategory.setColors(ColorTemplate.COLORFUL_COLORS);
             barDataSetCategory.setColor(Utils.generateRandomColor());
 //              barDataSetCategory.setColor(ColorTemplate)
@@ -80,7 +80,6 @@ public class BarChartFragment  extends Fragment {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -90,24 +89,24 @@ public class BarChartFragment  extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("BarChar","onDestroy()");
+        Log.d("BarChar", "onDestroy()");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("BarChar","onDetach()");
+        Log.d("BarChar", "onDetach()");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("BarChar","onPause()");
+        Log.d("BarChar", "onPause()");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("BarChar","onDestroyView()");
+        Log.d("BarChar", "onDestroyView()");
     }
 }

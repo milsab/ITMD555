@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +23,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import expenses.android.com.expenses.data.ExpenseContract;
@@ -56,6 +53,7 @@ public class EditExpenseActivity extends AppCompatActivity {
     private Button btnDelete;
 
 
+
     private ExpenseDBHelper mExpenseDBHelper;
 
 
@@ -72,6 +70,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         mSpinnerCategory = (Spinner) findViewById(R.id.spinner_category);
         dateView = (EditText) findViewById(R.id.date_view);
         btnDelete = (Button) findViewById(R.id.btnDelete);
+
 
         // Pops up keyboard when add expense activity starts
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -99,6 +98,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             mAction = "add";
             setTitle("Add Expense");
             btnDelete.setVisibility(View.GONE);
+
         }else{
             setTitle("Edit Expense");
             mAction = "edit";
@@ -303,17 +303,17 @@ public class EditExpenseActivity extends AppCompatActivity {
     public boolean validate() {
         boolean status = true;
         if (mEditExpenseTitle.getText().toString().trim().equals("")) {
-            Toast.makeText(getApplicationContext(), "Title is Required",
+            Toast.makeText(getApplicationContext(), "Title is empty",
                     Toast.LENGTH_SHORT).show();
             status = false;
         } else if (mEditAmountExpense.getText().toString().trim().equals("")) {
-            Toast.makeText(getApplicationContext(), "Amount is Required",
+            Toast.makeText(getApplicationContext(), "Amount is empty",
                     Toast.LENGTH_SHORT).show();
             status = false;
         } else if (
                 (( Float.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
                 ){
-            Toast.makeText(getApplicationContext(), "Cannot add expense, change limit",
+            Toast.makeText(getApplicationContext(), "Amount exceeded current budget. Please raise budget.",
                     Toast.LENGTH_SHORT).show();
             status = false;
         }

@@ -11,7 +11,7 @@ public class CategoryItem {
     int icon;
 
     // Object Constructors
-    public CategoryItem(){
+    public CategoryItem() {
 
     }
 
@@ -37,7 +37,7 @@ public class CategoryItem {
         this.icon = icon;
     }
 
-    public ArrayList addCategories(){
+    public ArrayList addCategories() {
         ArrayList<CategoryItem> list = new ArrayList<>();
         list.add(new CategoryItem("general", R.drawable.ic_home));
         list.add(new CategoryItem("food", R.drawable.ic_food));

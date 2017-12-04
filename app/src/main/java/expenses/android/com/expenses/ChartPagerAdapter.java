@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 public class ChartPagerAdapter extends FragmentPagerAdapter {
 
 
-    private String tabTitles[] = new String[] {"List View","Pie Chart", "Bar Chart"};
+    private String tabTitles[] = new String[]{"List View", "Pie Chart", "Bar Chart"};
 
     /*private long dateFrom;
     private long dateTo;
@@ -55,20 +55,20 @@ public class ChartPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.d("ChartPagerAdapter","getItem()");
-        Log.d("ChartPagerAdapter","getItem: " + position);
-        switch(position){
+        Log.d("ChartPagerAdapter", "getItem()");
+        Log.d("ChartPagerAdapter", "getItem: " + position);
+        switch (position) {
             case 0:
-                ListViewFragment  listViewFragment = new ListViewFragment();
+                ListViewFragment listViewFragment = new ListViewFragment();
                 listViewFragment.setArguments(getBundle());
                 return listViewFragment;
             case 1:
-                Log.d("Case 1","getItem()");
+                Log.d("Case 1", "getItem()");
                 PieChartFragment pieChartFragment = new PieChartFragment();
                 pieChartFragment.setArguments(getBundle());
                 return pieChartFragment;
             case 2:
-                Log.d("Case 2","getItem()");
+                Log.d("Case 2", "getItem()");
                 BarChartFragment barChartFragment = new BarChartFragment();
                 barChartFragment.setArguments(getBundle());
                 return barChartFragment;
@@ -77,17 +77,17 @@ public class ChartPagerAdapter extends FragmentPagerAdapter {
         return null;
     }
 
-    public Bundle getBundle(){
+    public Bundle getBundle() {
         return bundle;
     }
 
-    public void setBundle(Bundle b){
+    public void setBundle(Bundle b) {
         bundle.putLong("dateFrom", b.getLong("dateFrom"));
         bundle.putLong("dateTo", b.getLong("dateTo"));
         bundle.putString("category", b.getString("category"));
         bundle.putBoolean("default", b.getBoolean("default"));
 
-        Log.d("ChartPagerAdapter","category" + bundle.getString("category"));
+        Log.d("ChartPagerAdapter", "category" + bundle.getString("category"));
     }
 
 

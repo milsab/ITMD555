@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
         txtTotal = (TextView) theView.findViewById(R.id.txtTotal);
         txtRemaining = (TextView) theView.findViewById(R.id.txtRemaining);
         arcProgress = (ArcProgress) theView.findViewById(R.id.arc_progress);
-        listView = (ListView)theView.findViewById(R.id.expense_list_view);
+        listView = (ListView) theView.findViewById(R.id.expense_list_view);
         month = (TextView) theView.findViewById(R.id.text_month);
 
 
@@ -64,10 +64,10 @@ public class HomeFragment extends Fragment {
 
 
         //calculate progress percentage
-        if(budget == 0){
+        if (budget == 0) {
             consumptionPercent = 0;
-        } else{
-            consumptionPercent = (double)total/budget * 100;
+        } else {
+            consumptionPercent = (double) total / budget * 100;
         }
 
         //Set values
@@ -84,13 +84,13 @@ public class HomeFragment extends Fragment {
         colorChanger();
 
 
-        expenseAdapter = new ExpenseAdapter(theView.getContext(),null);
+        expenseAdapter = new ExpenseAdapter(theView.getContext(), null);
         listView.setAdapter(expenseAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView amount = (TextView)view.findViewById(R.id.amount_text_view);
+                TextView amount = (TextView) view.findViewById(R.id.amount_text_view);
                 String ss = amount.getText().toString();
                 String s = ss.replace(",", "");
 //                Log.d("MO", "TOTAL: " + total);
@@ -103,15 +103,15 @@ public class HomeFragment extends Fragment {
 //                }
 
 
-                total = total - Float.valueOf(s.substring(1, s.length() ));
+                total = total - Float.valueOf(s.substring(1, s.length()));
                 Log.d("MO", "TOTAL: " + total);
-                remaining = remaining + Float.valueOf(s.substring(1, s.length() ));
+                remaining = remaining + Float.valueOf(s.substring(1, s.length()));
 
-                Intent i = new Intent(getContext(),EditExpenseActivity.class);
-                TextView textView = (TextView)view.findViewById(R.id.id_text_view);
+                Intent i = new Intent(getContext(), EditExpenseActivity.class);
+                TextView textView = (TextView) view.findViewById(R.id.id_text_view);
                 String idText = textView.getText().toString();
-                i.putExtra("id",Integer.parseInt(idText));
-                i.putExtra("action","edit");
+                i.putExtra("id", Integer.parseInt(idText));
+                i.putExtra("action", "edit");
                 i.putExtra("A", remaining);
                 i.putExtra("B", total);
                 startActivityForResult(i, 1);
@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
     public void colorChanger() {
         if (consumptionPercent >= 90) {
             txtTotal.setTextColor(ColorTemplate.rgb("#ce0606"));
-            Toast.makeText(getActivity().getApplicationContext(),"WARNING: You've reached the 90% of your budjet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "WARNING: You've reached the 90% of your budjet", Toast.LENGTH_SHORT).show();
         } else if (consumptionPercent >= 50) {
             arcProgress.setFinishedStrokeColor(ColorTemplate.rgb("#FFC30F"));
         } else {
@@ -172,14 +172,14 @@ public class HomeFragment extends Fragment {
         colorChanger();
     }
 
-    private void displayExpenses(){
+    private void displayExpenses() {
 
         Cursor cursor = mExpenseDbHelper.getLatestExpenses();
 
-        if(cursor != null || cursor.getColumnCount() == 0){
+        if (cursor != null || cursor.getColumnCount() == 0) {
             expenseAdapter.swapCursor(cursor);
-        }else{
-            TextView textView = (TextView)theView.findViewById(R.id.list_empty_message);
+        } else {
+            TextView textView = (TextView) theView.findViewById(R.id.list_empty_message);
             textView.setVisibility(View.VISIBLE);
             textView.setText("Expenses are empty!");
         }
@@ -189,14 +189,14 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                Float result=data.getFloatExtra("result", 0);
+            if (resultCode == Activity.RESULT_OK) {
+                Float result = data.getFloatExtra("result", 0);
                 total = total + result;
                 remaining = remaining - result;
-                if(budget == 0){
+                if (budget == 0) {
                     consumptionPercent = 0;
-                } else{
-                    consumptionPercent = (double)total/budget * 100;
+                } else {
+                    consumptionPercent = (double) total / budget * 100;
                 }
 
 
@@ -210,11 +210,11 @@ public class HomeFragment extends Fragment {
                 txtRemaining.setText("Remaining: $" + String.format("%.2f", remaining));
                 colorChanger();
 
-            } else if(resultCode == 1039){
-                if(budget == 0){
+            } else if (resultCode == 1039) {
+                if (budget == 0) {
                     consumptionPercent = 0;
-                } else{
-                    consumptionPercent = (double)total/budget * 100;
+                } else {
+                    consumptionPercent = (double) total / budget * 100;
                 }
 
                 ((MainActivity) getActivity()).setTotalCost(total);
