@@ -93,7 +93,6 @@
             android:layout_height="0dp"
             android:layout_weight="0.12"
             android:fontFamily="sans-serif-medium"
-            android:text="Total: 2000$"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="18sp" />
 

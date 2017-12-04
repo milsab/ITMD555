@@ -71,7 +71,7 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void deletePet(int id) {
+    public void deleteById(int id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM expense WHERE _id = " + id);
     }
@@ -104,6 +104,14 @@ public class ExpenseDBHelper extends SQLiteOpenHelper {
                 "FROM expense " +
                 "WHERE category='" + category +
                 "' AND date BETWEEN " + dateFrom + " AND " + dateTo,null);
+        return cursor;
+    }
+
+    public Cursor getTotalPeriodCategory(long dateFrom, long dateTo, String category){
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT SUM(amount) FROM expense WHERE category='"
+                + category +  "' AND date BETWEEN " + dateFrom + " AND " + dateTo,null);
         return cursor;
     }
 

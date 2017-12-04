@@ -22,8 +22,8 @@ public class SettingsFragment extends Fragment {
     EditText txtBudget;
     Button btnApply;
     Button btnReset;
-    int amount;
-    int budget;
+    Float amount;
+    Float budget;
     SharedPreferences sharedPref;
     private ExpenseDBHelper mExpenseDBHelper;
 
@@ -38,22 +38,22 @@ public class SettingsFragment extends Fragment {
         btnReset = (Button) theView.findViewById(R.id.btnReset);
 
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        txtBudget.setText(String.valueOf(sharedPref.getInt("BUDGET", 0)));
+        txtBudget.setText(String.valueOf(sharedPref.getFloat("BUDGET", 0)));
 
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                budget = Integer.parseInt(txtBudget.getText().toString());
+                budget = Float.valueOf(txtBudget.getText().toString());
 
                 amount = budget - ((MainActivity) getActivity()).getTotalCost();
                 if(amount > 0){
                     sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putInt("REMAINING", amount);
+                    editor.putFloat("REMAINING", amount);
                     editor.apply();
 
-                    editor.putInt("BUDGET", budget);
+                    editor.putFloat("BUDGET", budget);
                     editor.apply();
 
                     // change the value in Mainactivity
@@ -77,13 +77,13 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt("REMAINING", 1000);
+                editor.putFloat("REMAINING", 1000);
                 editor.apply();
 
-                editor.putInt("BUDGET", 1000);
+                editor.putFloat("BUDGET", 1000);
                 editor.apply();
 
-                editor.putInt("TOTAL", 0);
+                editor.putFloat("TOTAL", 0);
                 editor.apply();
 
                 txtBudget.setText("1000");
@@ -91,7 +91,8 @@ public class SettingsFragment extends Fragment {
                 // change the value in Mainactivity
                 ((MainActivity) getActivity()).setRemainingAmount(1000);
                 ((MainActivity) getActivity()).setBudgetAmount(1000);
-                ((MainActivity) getActivity()).setTotalCost(0);
+
+                ((MainActivity) getActivity()).setTotalCost(0f);
 
                 //Delete All Expenses
                 mExpenseDBHelper = new ExpenseDBHelper(getActivity().getApplicationContext());

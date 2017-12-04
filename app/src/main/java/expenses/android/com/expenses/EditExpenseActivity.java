@@ -46,13 +46,14 @@ public class EditExpenseActivity extends AppCompatActivity {
     private Calendar calendar;
     private int year, month, day;
     private String mCategory;
-    private double amount;
+    private Float amount;
     private int mExpenseId;
     private String mAction;
     private String mDate;
 
-    private int remaining;
-    private int total;
+    private Float remaining;
+    private Float total;
+    private Button btnDelete;
 
 
     private ExpenseDBHelper mExpenseDBHelper;
@@ -70,6 +71,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         mEditAmountExpense = (EditText) findViewById(R.id.edit_amount_expense);
         mSpinnerCategory = (Spinner) findViewById(R.id.spinner_category);
         dateView = (EditText) findViewById(R.id.date_view);
+        btnDelete = (Button) findViewById(R.id.btnDelete);
 
         // Pops up keyboard when add expense activity starts
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -96,20 +98,34 @@ public class EditExpenseActivity extends AppCompatActivity {
         if(i.getStringExtra("action").equals("add")){
             mAction = "add";
             setTitle("Add Expense");
+            btnDelete.setVisibility(View.GONE);
         }else{
             setTitle("Edit Expense");
             mAction = "edit";
             mExpenseId = i.getIntExtra("id",-1);
             populateData(mExpenseId);
+            btnDelete.setVisibility(View.VISIBLE);
             //Toast.makeText(getApplicationContext(),"The id is :" + mExpenseId,Toast.LENGTH_SHORT).show();
         }
 
-        remaining = i.getIntExtra("A", 0);
+        remaining = i.getFloatExtra("A", 0);
         Log.d("MILAD", "REMAINING in Edit: " + remaining);
-        total = i.getIntExtra("B", 0);
+        total = i.getFloatExtra("B", 0);
         Log.d("MILAD", "TOTAL in Edit: " + total);
 
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mExpenseDBHelper = new ExpenseDBHelper(getApplicationContext());
+                mExpenseDBHelper.deleteById(mExpenseId);
+                Toast.makeText(getApplicationContext(),"Expense Deleted", Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result","DELETE");
+                setResult(1039,returnIntent);
+                finish();
+            }
+        });
     }
 
     public void set_date(View view) {
@@ -190,7 +206,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         String title = mEditExpenseTitle.getText().toString().trim();
         String description = mEditDescriptionExpense.getText().toString().trim();
-        amount = Double.parseDouble(mEditAmountExpense.getText().toString().trim());
+        amount = Float.valueOf(mEditAmountExpense.getText().toString().trim());
 
         //Update the remaining in SharedPreferences
         float limit = Prefs.getLimit(this);
@@ -227,7 +243,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                 if(validate()){
 
                     saveExpense();
-                    int result = (int) amount;
+                    Float result = amount;
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result",result);
                     setResult(Activity.RESULT_OK,returnIntent);
@@ -254,7 +270,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
             String title = c.getString(titleColumnIndex);
             String description = c.getString(descriptionColumnIndex);
-            double amount = c.getDouble(amountColumnIndex);
+            Float amount = c.getFloat(amountColumnIndex);
             mDate = Utils.getDateString(c.getLong(dateColumnIndex));
             mCategory = c.getString(categoryColumnIndex);
 
@@ -262,7 +278,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
             mEditExpenseTitle.setText(title);
             mEditDescriptionExpense.setText(description);
-            mEditAmountExpense.setText(""+ amount);
+            mEditAmountExpense.setText(String.format("%.2f", amount));
             dateView.setText(mDate);
 
 
@@ -295,7 +311,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             status = false;
         } else if (
-                (( Double.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
+                (( Float.valueOf(mEditAmountExpense.getText().toString().trim()) ) > remaining )
                 ){
             Toast.makeText(getApplicationContext(), "Cannot add expense, change limit",
                     Toast.LENGTH_SHORT).show();

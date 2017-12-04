@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private static int totalCost = 100;
-    private static int remainingAmount =1000;
-    private static int budgetAmount;
+    private static float totalCost = 100f;
+    private static float remainingAmount =1000f;
+    private static float budgetAmount;
 
     private DrawerLayout mDrawerlayout;
     private ActionBarDrawerToggle mToggle;
@@ -47,17 +47,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //-----------------------------------------------------------------------------------------
 
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-
-        int cost = sharedPref.getInt("TOTAL", 0);
+//        int f = sharedPref.getInt("TOTAL", 0);
+//        String s1 = String.valueOf(f);
+//        Float cost = Float.valueOf(s1);
+        Float cost = sharedPref.getFloat("TOTAL", 0f);
         totalCost = cost;
         Log.wtf("MainActivity","totalCost" + totalCost);
 
-        int amount = sharedPref.getInt("REMAINING", 0);
+        Float amount = sharedPref.getFloat("REMAINING", 0f);
         Log.d("MILAD", "REMAINING: " + amount);
         remainingAmount = amount;
         Log.wtf("MainActivity","remainingAmount---------------->" + remainingAmount);
 
-        int budget = sharedPref.getInt("BUDGET",0);
+        Float budget = sharedPref.getFloat("BUDGET",0f);
         budgetAmount = budget;
         Log.wtf("MainActivity","budget------------------->" + budgetAmount);
         //-----------------------------------------------------------------------------------------
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                int result=data.getIntExtra("result", 0);
+                Float result=data.getFloatExtra("result", 0);
 
                 totalCost = totalCost + result;
                 remainingAmount = remainingAmount - result;
@@ -168,45 +170,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public int getTotalCost() {
+    public Float getTotalCost() {
 
-//        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-//        int cost = sharedPref.getInt("TOTAL", 0);
-//        totalCost = cost;
         return totalCost;
     }
 
-    public void setTotalCost(int cost) {
+    public void setTotalCost(Float cost) {
         totalCost = cost;
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("TOTAL", cost);
+        editor.putFloat("TOTAL", cost);
         editor.apply();
     }
 
-    public int getRemainingAmount() {
+    public Float getRemainingAmount() {
         return remainingAmount;
     }
 
-    public void setRemainingAmount(int amount) {
+    public void setRemainingAmount(float amount) {
         remainingAmount = amount;
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("REMAINING", amount);
+        editor.putFloat("REMAINING", amount);
         editor.apply();
     }
 
-    public int getBudgetAmount() {
+    public float getBudgetAmount() {
         return budgetAmount;
     }
 
-    public void setBudgetAmount(int budget) {
+    public void setBudgetAmount(float budget) {
+//        DecimalFormat df = new DecimalFormat("#.00");
         budgetAmount = budget;
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("BUDGET", budget);
+        editor.putFloat("BUDGET", budget);
         editor.apply();
     }
 }

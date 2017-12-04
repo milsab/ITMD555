@@ -4,6 +4,7 @@ package expenses.android.com.expenses;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.database.Cursor;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.os.Binder;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import expenses.android.com.expenses.data.ExpenseDBHelper;
 import expenses.android.com.expenses.util.Utils;
 
 public class ReportsFragment extends Fragment{
@@ -53,6 +55,8 @@ public class ReportsFragment extends Fragment{
 
 
     private Button  mSearchBtn;
+
+    private ExpenseDBHelper mExpenseDbHelper;
 
 
     private boolean firstSearch = true;
@@ -78,10 +82,10 @@ public class ReportsFragment extends Fragment{
         Log.d("ReportsFragment","onCreateView()");
         theView = inflater.inflate(R.layout.activity_reports, container, false);
 
-
-
         mDateFrom = (Button)theView.findViewById(R.id.set_from_date);
         mDateTo = (Button)theView.findViewById(R.id.set_to_date);
+
+        mExpenseDbHelper = new ExpenseDBHelper(theView.getContext());
 
         mDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,9 +156,17 @@ public class ReportsFragment extends Fragment{
         mTotalTextView = (TextView)theView.findViewById(R.id.total_view_report);
         mCategorySpinnerLabel = (TextView)theView.findViewById(R.id.category_spinner_label);
 
+        mTotalTextView.setVisibility(View.INVISIBLE);
+
 //        setSearchBtn();
 
-        mTotalTextView.setText("Total: " + String.valueOf(((MainActivity) getActivity()).getTotalCost()));
+//        mTotalTextView.setText("Total: " + String.valueOf(((MainActivity) getActivity()).getTotalCost()));
+
+//        mTotalTextView.setText("Total: " + String.valueOf(((MainActivity) getActivity()).getTotalCost()));
+
+
+//        mTotalTextView.setText("Total: " + String.format( "%.2f", ((MainActivity) getActivity()).getTotalCost()));
+
 
         setupSpinner();
 
@@ -186,6 +198,7 @@ public class ReportsFragment extends Fragment{
 //                    chartPagerAdapter.getItem(0);
                 }
 //                chartPagerAdapter.setBundle(bundle);
+                setUpTotal(mDateFromIntFormatted,mDateToIntFormatted,mCategory);
 
                 firstSearch = false;
 
@@ -244,6 +257,16 @@ public class ReportsFragment extends Fragment{
 //                mGender = PetContract.PetEntry.GENDER_UNKNOWN; // Unknown
             }
         });
+    }
+
+    public void setUpTotal(long from, long to, String category){
+        Cursor c = mExpenseDbHelper.getTotalPeriodCategory(from,to,category);
+        if(c.moveToNext()){
+            double total = c.getDouble(0);
+            mTotalTextView.setText("Total: $" + total);
+            mTotalTextView.setVisibility(View.VISIBLE);
+
+        }
     }
 
     public static  class DatePickerFragment extends DialogFragment

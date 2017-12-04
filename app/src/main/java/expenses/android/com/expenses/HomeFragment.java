@@ -30,9 +30,9 @@ public class HomeFragment extends Fragment {
     TextView txtRemaining;
     TextView month;
     ArcProgress arcProgress;
-    int total;
-    int remaining;
-    int budget;
+    Float total;
+    Float remaining;
+    Float budget;
     double consumptionPercent;
     View theView;
     ListView listView;
@@ -70,8 +70,8 @@ public class HomeFragment extends Fragment {
         }
 
         //Set values
-        txtTotal.setText("$ " + String.valueOf(total));
-        txtRemaining.setText("Remaining: $" + String.valueOf(remaining));
+        txtTotal.setText("$ " + String.format("%.2f", total));
+        txtRemaining.setText("Remaining: $" + String.format("%.2f", remaining));
 
 
         Log.wtf("HomeFragment", "Current Month:" + Calendar.getInstance().get(Calendar.MONTH));
@@ -98,9 +98,9 @@ public class HomeFragment extends Fragment {
 //                }
 
 
-                total = total - Integer.parseInt(s.substring(1, s.length() ));
+                total = total - Float.valueOf(s.substring(1, s.length() ));
                 Log.d("MO", "TOTAL: " + total);
-                remaining = remaining + Integer.parseInt(s.substring(1, s.length() ));
+                remaining = remaining + Float.valueOf(s.substring(1, s.length() ));
 
                 Intent i = new Intent(getContext(),EditExpenseActivity.class);
                 TextView textView = (TextView)view.findViewById(R.id.id_text_view);
@@ -183,7 +183,7 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                int result=data.getIntExtra("result", 0);
+                Float result=data.getFloatExtra("result", 0);
                 total = total + result;
                 remaining = remaining - result;
                 if(budget == 0){
@@ -198,10 +198,24 @@ public class HomeFragment extends Fragment {
 //                ((MainActivity) getActivity()).setBudgetAmount((int)consumptionPercent);
 
 
-                txtTotal.setText(String.valueOf(total));
-                txtRemaining.setText( "Remaining: " + String.valueOf(remaining));
+//                txtTotal.setText(String.valueOf(total));
+                txtTotal.setText("$ " + String.format("%.2f", total));
+                txtRemaining.setText("Remaining: $" + String.format("%.2f", remaining));
                 colorChanger();
 
+            } else if(resultCode == 1039){
+                if(budget == 0){
+                    consumptionPercent = 0;
+                } else{
+                    consumptionPercent = (double)total/budget * 100;
+                }
+
+                ((MainActivity) getActivity()).setTotalCost(total);
+                ((MainActivity) getActivity()).setRemainingAmount(remaining);
+
+                txtTotal.setText("$ " + String.format("%.2f", total));
+                txtRemaining.setText("Remaining: $" + String.format("%.2f", remaining));
+                colorChanger();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
